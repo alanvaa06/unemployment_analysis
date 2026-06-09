@@ -1,0 +1,30 @@
+[project]
+name = "unemployment_pipeline"
+version = "0.1.0"
+description = "BLS unemployment/workforce data pipeline + AI-impact dashboard"
+requires-python = ">=3.11"
+dependencies = [
+    "pandas>=2.0",
+    "pyarrow>=14",
+    "requests>=2.30",
+    "python-dotenv>=1.0",
+    "openpyxl>=3.1",
+    "plotly>=6.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "hypothesis>=6"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["unemployment_pipeline", "unemployment_pipeline.programs", "dashboard"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "integration: hits the live BLS API (requires BLS_API_KEY); deselect with -m 'not integration'",
+]
+addopts = "-m 'not integration'"
