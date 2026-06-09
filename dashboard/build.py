@@ -33,7 +33,7 @@ def _css() -> str:
   --line: oklch(0.915 0.004 258);
   --clay: oklch(0.58 0.13 42);         /* DATA: decline / AI-exposed */
   --clay-strong: oklch(0.50 0.16 40);  /* identity + section headers */
-  --teal: oklch(0.55 0.10 168);        /* DATA: growth / positive */
+  --teal: oklch(0.54 0.10 248);        /* DATA: growth / positive (blue) */
   --slate: oklch(0.52 0.07 250);       /* DATA: neutral / baseline */
   --serif: 'Iowan Old Style','Palatino Linotype',Georgia,'Times New Roman',serif;
   --sans: Inter,'Segoe UI',system-ui,-apple-system,sans-serif;

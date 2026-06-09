@@ -311,7 +311,7 @@ def _interactive_js() -> str:
     return r"""
 const DATA = __DATA__;
 const MONTHS = __MONTHS__;
-const INK="#26272e", MUTED="#8a8d99", LINE="#e9e9ee", CLAY="#c2613a", SLATE="#5b6b8c", TEAL="#2f8f6b";
+const INK="#26272e", MUTED="#8a8d99", LINE="#e9e9ee", CLAY="#c2613a", SLATE="#5b6b8c", TEAL="#3a78b5";
 const FONT="Inter,'Segoe UI',system-ui,sans-serif";
 const CFG={displaylogo:false, responsive:true};
 

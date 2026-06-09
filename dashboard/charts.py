@@ -12,7 +12,7 @@ LINE = "#e9e9ee"        # crisp cool gridline on white
 CLAY = "#c2613a"        # decline / AI-exposed
 CLAY_SOFT = "#dca07f"
 SLATE = "#5b6b8c"       # neutral / baseline
-TEAL = "#2f8f6b"        # growth / positive
+TEAL = "#3a78b5"        # growth / positive (blue; clay<->blue diverging, no green)
 SAND = "#b9a06b"
 PAPER = "rgba(0,0,0,0)"
 
