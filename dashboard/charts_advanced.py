@@ -10,7 +10,7 @@ import plotly.graph_objects as go
 from dashboard.charts import (CLAY, CLAY_SOFT, INK, LINE, MUTED, PAPER, SAND, SLATE, TEAL,
                               _SANS, _chatgpt_marker, _template)
 
-_DIVERGING = [[0.0, CLAY], [0.5, "#f4efe6"], [1.0, TEAL]]
+_DIVERGING = [[0.0, CLAY], [0.5, "#f3f4f6"], [1.0, TEAL]]
 CHATGPT = pd.Timestamp("2022-11-30")
 GPT4 = pd.Timestamp("2023-03-31")
 
@@ -60,8 +60,8 @@ def fig_state_ur_choropleth_animated(df: pd.DataFrame) -> go.Figure:
         s = d[d["year"] == year]
         return go.Choropleth(
             locations=s["abbr"], z=s["ur"], locationmode="USA-states",
-            colorscale=[[0, "#f3efe6"], [0.5, "#dca07f"], [1, CLAY]],
-            zmin=2, zmax=zmax, marker_line_color="#fffdf8", marker_line_width=0.5,
+            colorscale=[[0, "#eef0f3"], [0.5, "#dca07f"], [1, CLAY]],
+            zmin=2, zmax=zmax, marker_line_color="#ffffff", marker_line_width=0.5,
             colorbar=dict(title="UR %", thickness=12, len=0.7, outlinewidth=0),
             text=s["name"], hovertemplate="%{text}: %{z:.1f}%<extra></extra>")
 
@@ -72,8 +72,8 @@ def fig_state_ur_choropleth_animated(df: pd.DataFrame) -> go.Figure:
                   args=[[str(y)], dict(mode="immediate", frame=dict(duration=0, redraw=True),
                                        transition=dict(duration=0))]) for y in years]
     fig.update_layout(
-        geo=dict(scope="usa", bgcolor=PAPER, lakecolor=PAPER, landcolor="#f3efe6",
-                 subunitcolor="#fffdf8"),
+        geo=dict(scope="usa", bgcolor=PAPER, lakecolor=PAPER, landcolor="#eef0f3",
+                 subunitcolor="#ffffff"),
         margin=dict(l=0, r=0, t=10, b=0), height=460,
         font=dict(family=_SANS, color=INK), paper_bgcolor=PAPER,
         sliders=[dict(active=len(years) - 1, currentvalue=dict(prefix="Year: "),

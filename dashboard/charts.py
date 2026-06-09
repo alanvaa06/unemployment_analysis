@@ -4,14 +4,15 @@ from __future__ import annotations
 import pandas as pd
 import plotly.graph_objects as go
 
-# Palette (hex approximations of the OKLCH tokens used in CSS).
-INK = "#2b2c33"
+# Semantic data palette (hex approximations of the OKLCH tokens used in CSS).
+# Color is an ENCODING: clay = decline / AI-exposed, teal = growth, slate = neutral/baseline.
+INK = "#26272e"
 MUTED = "#8a8d99"
-LINE = "#e6e3dc"
-CLAY = "#c2613a"        # AI-signal accent
+LINE = "#e9e9ee"        # crisp cool gridline on white
+CLAY = "#c2613a"        # decline / AI-exposed
 CLAY_SOFT = "#dca07f"
-SLATE = "#5b6b8c"       # calm baseline
-TEAL = "#3f7d62"        # protective / positive
+SLATE = "#5b6b8c"       # neutral / baseline
+TEAL = "#2f8f6b"        # growth / positive
 SAND = "#b9a06b"
 PAPER = "rgba(0,0,0,0)"
 
@@ -40,7 +41,7 @@ def _template(fig: go.Figure, height: int = 420) -> go.Figure:
         margin=dict(l=56, r=24, t=12, b=40),
         legend=dict(orientation="h", yanchor="bottom", y=1.0, x=0,
                     bgcolor="rgba(0,0,0,0)", font=dict(size=12)),
-        hoverlabel=dict(bgcolor="#fffdf8", bordercolor=LINE,
+        hoverlabel=dict(bgcolor="#ffffff", bordercolor=LINE,
                         font=dict(family=_SANS, color=INK)),
         xaxis=dict(showgrid=False, linecolor=LINE, ticks="outside",
                    tickcolor=LINE, zeroline=False),
@@ -136,13 +137,13 @@ def fig_state_map(states: pd.DataFrame) -> go.Figure:
     states = states[states["abbr"] != "PR"]
     fig = go.Figure(go.Choropleth(
         locations=states["abbr"], z=states["ur"], locationmode="USA-states",
-        colorscale=[[0, "#f3efe6"], [0.5, CLAY_SOFT], [1, CLAY]],
-        marker_line_color="#fffdf8", marker_line_width=0.6,
+        colorscale=[[0, "#eef0f3"], [0.5, CLAY_SOFT], [1, CLAY]],
+        marker_line_color="#ffffff", marker_line_width=0.6,
         colorbar=dict(title="UR %", thickness=12, len=0.7, outlinewidth=0),
         text=states["name"],
         hovertemplate="%{text}: %{z:.1f}%<extra></extra>"))
     fig.update_layout(geo=dict(scope="usa", bgcolor=PAPER, lakecolor=PAPER,
-                               landcolor="#f3efe6", subunitcolor="#fffdf8"),
+                               landcolor="#eef0f3", subunitcolor="#ffffff"),
                       margin=dict(l=0, r=0, t=0, b=0), height=420,
                       font=dict(family=_SANS, color=INK), paper_bgcolor=PAPER)
     return fig
@@ -205,7 +206,7 @@ def fig_occupation(occ: pd.DataFrame) -> go.Figure:
         text=occ["short"], textposition="top center",
         textfont=dict(size=11, color=INK),
         marker=dict(size=(occ["employment"] ** 0.5) / 40 + 8, color=CLAY,
-                    opacity=0.8, line=dict(color="#fffdf8", width=1)),
+                    opacity=0.8, line=dict(color="#ffffff", width=1)),
         hovertemplate="%{text}<br>employment: %{x:,.0f}<br>LLM exposure (beta): %{y:.2f}<extra></extra>"))
     fig.update_xaxes(type="log", title="Employment (log scale)")
     fig.update_yaxes(title="LLM exposure (GPTs beta)")

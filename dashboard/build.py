@@ -25,15 +25,16 @@ class Section:
 def _css() -> str:
     return """
 :root{
-  --paper: oklch(0.985 0.004 85);
-  --surface: oklch(0.972 0.006 80);
-  --ink: oklch(0.26 0.02 255);
-  --muted: oklch(0.52 0.02 255);
-  --faint: oklch(0.70 0.015 255);
-  --line: oklch(0.91 0.006 80);
-  --clay: oklch(0.58 0.13 45);
-  --clay-strong: oklch(0.50 0.16 42);
-  --slate: oklch(0.52 0.07 250);
+  --paper: oklch(0.995 0.0015 250);   /* near-white page */
+  --surface: oklch(0.982 0.004 250);  /* faint cool band for alternating sections */
+  --ink: oklch(0.24 0.015 258);
+  --muted: oklch(0.50 0.02 258);
+  --faint: oklch(0.66 0.015 258);
+  --line: oklch(0.915 0.004 258);
+  --clay: oklch(0.58 0.13 42);         /* DATA: decline / AI-exposed */
+  --clay-strong: oklch(0.50 0.16 40);  /* identity + section headers */
+  --teal: oklch(0.55 0.10 168);        /* DATA: growth / positive */
+  --slate: oklch(0.52 0.07 250);       /* DATA: neutral / baseline */
   --serif: 'Iowan Old Style','Palatino Linotype',Georgia,'Times New Roman',serif;
   --sans: Inter,'Segoe UI',system-ui,-apple-system,sans-serif;
 }
@@ -59,7 +60,7 @@ h1{font-family:var(--serif);font-weight:600;font-size:clamp(2.3rem,5.2vw,3.7rem)
 .kpi .l{font-size:.82rem;color:var(--muted);letter-spacing:.01em}
 .kpi.flag .v{color:var(--clay-strong)}
 
-nav.toc{position:sticky;top:0;z-index:5;background:oklch(0.985 0.004 85 / 0.86);
+nav.toc{position:sticky;top:0;z-index:5;background:oklch(0.995 0.0015 250 / 0.88);
   backdrop-filter:saturate(1.1) blur(6px);border-bottom:1px solid var(--line)}
 nav.toc .wrap{display:flex;gap:26px;overflow-x:auto;padding-top:13px;padding-bottom:13px}
 nav.toc a{font-size:.85rem;color:var(--muted);white-space:nowrap;font-weight:500}
@@ -69,7 +70,7 @@ section.exhibit{padding:62px 0;border-bottom:1px solid var(--line)}
 section.exhibit:nth-child(even){background:var(--surface)}
 .eyebrow{font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;
   color:var(--clay-strong);font-weight:600;margin:0 0 10px}
-section.exhibit h2{font-family:var(--serif);font-weight:600;
+section.exhibit h2{font-family:var(--serif);font-weight:600;color:var(--clay-strong);
   font-size:clamp(1.5rem,3vw,2.1rem);line-height:1.12;margin:0 0 14px;max-width:24ch}
 .caption{color:var(--muted);max-width:70ch;margin:0 0 28px;font-size:1.02rem}
 .caption b{color:var(--ink);font-weight:600}

@@ -18,7 +18,8 @@ from dashboard.build import PLOTLY_CDN, _css
 from unemployment_pipeline.datasets import read_dataset
 
 _CONTROL_CSS = """
-.controlbar{position:sticky;top:0;z-index:6;background:oklch(0.972 0.006 80);
+.controlbar{position:sticky;top:0;z-index:6;background:oklch(0.982 0.004 250 / 0.95);
+  backdrop-filter:saturate(1.1) blur(6px);
   border-bottom:1px solid var(--line);box-shadow:0 1px 0 var(--line)}
 .controlbar .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;padding:15px 28px}
 .controlbar .lab{font-family:var(--serif);font-size:1.05rem;color:var(--ink)}
@@ -35,7 +36,7 @@ _CONTROL_CSS = """
   padding:3px 9px;margin-left:8px;vertical-align:middle}
 .findings{padding:56px 0;border-bottom:1px solid var(--line);background:var(--surface)}
 .findings .eyebrow{margin-bottom:16px}
-.findings h2{font-family:var(--serif);font-weight:600;font-size:clamp(1.6rem,3vw,2.2rem);margin:0 0 28px;max-width:24ch}
+.findings h2{font-family:var(--serif);font-weight:600;color:var(--clay-strong);font-size:clamp(1.6rem,3vw,2.2rem);margin:0 0 28px;max-width:24ch}
 .findings ol{list-style:none;counter-reset:f;padding:0;margin:0;display:grid;
   grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:28px 44px}
 .findings li{counter-increment:f;position:relative;padding-left:50px;max-width:58ch}
@@ -310,7 +311,7 @@ def _interactive_js() -> str:
     return r"""
 const DATA = __DATA__;
 const MONTHS = __MONTHS__;
-const INK="#2b2c33", MUTED="#8a8d99", LINE="#e6e3dc", CLAY="#c2613a", SLATE="#5b6b8c", TEAL="#3f7d62";
+const INK="#26272e", MUTED="#8a8d99", LINE="#e9e9ee", CLAY="#c2613a", SLATE="#5b6b8c", TEAL="#2f8f6b";
 const FONT="Inter,'Segoe UI',system-ui,sans-serif";
 const CFG={displaylogo:false, responsive:true};
 
@@ -324,7 +325,7 @@ function lvl(s, B, C){ const b=lastOnOrBefore(s.dates,s.values,B), c=lastOnOrBef
 function tpl(extra){ return Object.assign({template:"plotly_white",paper_bgcolor:"rgba(0,0,0,0)",
   plot_bgcolor:"rgba(0,0,0,0)",font:{family:FONT,size:13,color:INK},margin:{l:60,r:24,t:16,b:46},
   xaxis:{gridcolor:LINE,zeroline:false,linecolor:LINE},yaxis:{gridcolor:LINE,zeroline:false,linecolor:"rgba(0,0,0,0)"},
-  hoverlabel:{bgcolor:"#fffdf8",bordercolor:LINE,font:{family:FONT,color:INK}}}, extra||{}); }
+  hoverlabel:{bgcolor:"#ffffff",bordercolor:LINE,font:{family:FONT,color:INK}}}, extra||{}); }
 function diverge(v){ // aiie ~ [-1,2] -> color
   const t=Math.max(0,Math.min(1,(v+1)/3)); const r=Math.round(91+(194-91)*t), g=Math.round(107+(97-107)*t), b=Math.round(140+(58-140)*t);
   return `rgb(${r},${g},${b})`; }
@@ -346,7 +347,7 @@ function drawWaterfall(B,C){
   const x=rows.map(r=>r.v).concat([net]); const y=rows.map(r=>r.label).concat(["Net change"]);
   const measure=rows.map(()=>"relative").concat(["total"]);
   Plotly.react("c-waterfall",[{type:"waterfall",orientation:"h",measure:measure,x:x,y:y,
-    decreasing:{marker:{color:CLAY}},increasing:{marker:{color:SLATE}},totals:{marker:{color:INK}},
+    decreasing:{marker:{color:CLAY}},increasing:{marker:{color:TEAL}},totals:{marker:{color:INK}},
     connector:{line:{color:LINE}},hovertemplate:"%{y}: %{x:+,.0f}k<extra></extra>"}],
     tpl({height:Math.max(560,30*y.length+90),xaxis:{title:"Contribution to net job change (000s)",
       gridcolor:LINE,zeroline:true,zerolinecolor:MUTED},yaxis:{automargin:true,autorange:"reversed"}}),CFG);
@@ -361,8 +362,8 @@ function drawDistribution(B,C){
       line:{color:SLATE,width:1},fillcolor:"rgba(91,107,140,0.06)",y0:0,hoverinfo:"skip",showlegend:false},
     {type:"scatter",mode:"markers",x:pts.map(p=>p.x),y:ys,
       marker:{size:pts.map(p=>Math.max(6,Math.min(20,Math.sqrt(p.emp||1)/14))),
-        opacity:0.82,line:{color:"#fffdf8",width:0.5},
-        color:pts.map(p=>p.aiie==null?0:p.aiie),colorscale:[[0,SLATE],[1,CLAY]],cmin:-1,cmax:2,
+        opacity:0.82,line:{color:"#ffffff",width:0.5},
+        color:pts.map(p=>p.aiie==null?0:p.aiie),colorscale:[[0,TEAL],[0.5,"#cfd6dd"],[1,CLAY]],cmin:-1,cmax:2,
         showscale:true,colorbar:{title:"AI exp",thickness:11,len:0.5,outlinewidth:0}},
       text:pts.map(p=>p.label),customdata:pts.map(p=>p.aiie==null?"n/a":p.aiie.toFixed(2)),
       hovertemplate:"%{text}<br>change %{x:+.1f}%<br>AI exposure %{customdata}<extra></extra>",showlegend:false}],
@@ -375,7 +376,7 @@ function drawStatesSwarm(B,C){
   const ys=beeswarmY(pts.map(p=>p.x));
   Plotly.react("c-states",[{type:"scatter",mode:"markers+text",x:pts.map(p=>p.x),y:ys,
     text:pts.map(p=>p.abbr),textposition:"top center",textfont:{size:9,color:MUTED},
-    marker:{size:15,opacity:0.9,line:{color:"#fffdf8",width:1},
+    marker:{size:15,opacity:0.9,line:{color:"#ffffff",width:1},
       color:pts.map(p=>p.tech==null?0:p.tech),colorscale:[[0,"#5b6b8c"],[1,CLAY]],
       cmin:0,cmax:22,showscale:true,colorbar:{title:"tech %",thickness:12,len:0.6,outlinewidth:0}},
     customdata:pts.map(p=>p.tech==null?"n/a":p.tech.toFixed(1)),
@@ -393,7 +394,7 @@ function drawScatter(B,C){
   const fit=ols(pts.map(p=>p.x),pts.map(p=>p.y));
   const traces=[{type:"scatter",mode:"markers+text",x:pts.map(p=>p.x),y:pts.map(p=>p.y),
     text:pts.map(p=>p.label),textposition:"top center",textfont:{size:9,color:MUTED},
-    marker:{size:pts.map(p=>Math.max(9,Math.sqrt(p.emp||1)/12)),color:pts.map(p=>p.y<0?CLAY:SLATE),opacity:0.85,line:{color:"#fffdf8",width:1}},
+    marker:{size:pts.map(p=>Math.max(9,Math.sqrt(p.emp||1)/12)),color:pts.map(p=>p.y<0?CLAY:TEAL),opacity:0.85,line:{color:"#ffffff",width:1}},
     hovertemplate:"%{text}<br>AI exposure %{x:.2f}<br>change %{y:+.1f}%<extra></extra>",showlegend:false}];
   let ann=[];
   if(fit){ const xs=pts.map(p=>p.x); const xmin=Math.min(...xs),xmax=Math.max(...xs);
@@ -413,7 +414,7 @@ function drawFreeze(B,C){
     pts.push({label:op[code].label,x:x,y:y,emp:op[code].s.values.slice(-1)[0]}); });
   Plotly.react("c-freeze",[{type:"scatter",mode:"markers+text",x:pts.map(p=>p.x),y:pts.map(p=>p.y),
     text:pts.map(p=>p.label),textposition:"top center",textfont:{size:10,color:INK},
-    marker:{size:14,color:pts.map(p=>(p.x<0&&p.y>0)?CLAY:SLATE),opacity:0.85,line:{color:"#fffdf8",width:1}},
+    marker:{size:14,color:pts.map(p=>(p.x<0&&p.y>0)?CLAY:(p.x>0?TEAL:SLATE)),opacity:0.85,line:{color:"#ffffff",width:1}},
     hovertemplate:"%{text}<br>openings %{x:+.0f}%<br>layoffs %{y:+.0f}%<extra></extra>",showlegend:false}],
     tpl({height:480,xaxis:{title:"Job-openings change (%)",ticksuffix:"%",gridcolor:LINE,zeroline:true,zerolinecolor:MUTED},
       yaxis:{title:"Layoffs change (%)",ticksuffix:"%",gridcolor:LINE,zeroline:true,zerolinecolor:MUTED},
