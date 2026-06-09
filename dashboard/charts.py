@@ -81,7 +81,7 @@ def fig_education(edu: pd.DataFrame) -> go.Figure:
     fig = go.Figure()
     series = [
         ("less_than_hs", "Less than high school", CLAY, 1.4),
-        ("high_school", "High school, no college", SAND, 1.4),
+        ("high_school", "High school, no college", CLAY_SOFT, 1.4),
         ("some_college", "Some college / associate", SLATE, 1.4),
         ("bachelors_plus", "Bachelor's and higher", TEAL, 2.0),
     ]
@@ -181,7 +181,7 @@ def fig_education_distribution(dist: pd.DataFrame) -> go.Figure:
     order = ["less_than_hs", "high_school", "some_college", "bachelors_plus"]
     labels = {"less_than_hs": "Less than high school", "high_school": "High school",
               "some_college": "Some college / associate", "bachelors_plus": "Bachelor's and higher"}
-    colors = {"less_than_hs": CLAY, "high_school": SAND,
+    colors = {"less_than_hs": CLAY, "high_school": CLAY_SOFT,
               "some_college": SLATE, "bachelors_plus": TEAL}
     fig = go.Figure()
     for edu in order:
@@ -205,8 +205,10 @@ def fig_occupation(occ: pd.DataFrame) -> go.Figure:
         x=occ["employment"], y=occ["gpts_beta"], mode="markers+text",
         text=occ["short"], textposition="top center",
         textfont=dict(size=11, color=INK),
-        marker=dict(size=(occ["employment"] ** 0.5) / 40 + 8, color=CLAY,
-                    opacity=0.8, line=dict(color="#ffffff", width=1)),
+        marker=dict(size=(occ["employment"] ** 0.5) / 40 + 8,
+                    color=occ["gpts_beta"], colorscale=[[0, TEAL], [1, CLAY]],
+                    cmin=0, cmax=1, opacity=0.85, line=dict(color="#ffffff", width=1),
+                    colorbar=dict(title="LLM exp", thickness=11, len=0.5, outlinewidth=0)),
         hovertemplate="%{text}<br>employment: %{x:,.0f}<br>LLM exposure (beta): %{y:.2f}<extra></extra>"))
     fig.update_xaxes(type="log", title="Employment (log scale)")
     fig.update_yaxes(title="LLM exposure (GPTs beta)")

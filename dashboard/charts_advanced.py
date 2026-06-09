@@ -114,7 +114,7 @@ def fig_beveridge(bev: pd.DataFrame) -> go.Figure:
     fig = go.Figure()
     fig.add_trace(go.Scatter(
         x=bev["u"], y=bev["v"], mode="lines+markers",
-        marker=dict(size=5, color=bev["year"], colorscale=[[0, "#cdd3df"], [1, CLAY]],
+        marker=dict(size=5, color=bev["year"], colorscale=[[0, "#cfd6dd"], [1, "#26272e"]],
                     showscale=True, colorbar=dict(title="Year", thickness=12, len=0.6, outlinewidth=0)),
         line=dict(color="rgba(140,140,150,0.45)", width=1),
         text=[d.strftime("%b %Y") for d in bev["date"]],
