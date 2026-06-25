@@ -33,6 +33,13 @@
 - [x] Merge to main, enable Pages (main/root), verify live
 - [x] Live: https://alanvaa06.github.io/unemployment_analysis/
 
+## Phase 6 — Bilingual ES/EN (DONE 2026-06-25)
+- [x] Extract+translate 194 strings → `translations.json` + `i18n.py`
+- [x] Thread `lang` through build + chart builders; client-JS `T` map + `tlabel`
+- [x] `ES|EN` toggle, hreflang, `publish.py` builds index.html (es) + en.html (en)
+- [x] 76 tests green; both pages browser-verified
+- [ ] (optional) Translate ~180 detailed-NAICS beeswarm hover labels (needs BLS→ES crosswalk)
+
 ## Phase 4 — Econometric layer (DEFERRED — next)
 - [ ] Diff-in-diff / event study, continuous exposure × post-2022, parallel-trends
 - [ ] Multiple exposure indices + outcome sources (CPS vs payroll)

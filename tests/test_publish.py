@@ -38,20 +38,32 @@ def test_toolbar_js_full_wires_server_actions():
     assert "window.print()" in js
 
 
+def test_lang_toggle_es_highlights_es_and_links_en():
+    h = ib._lang_toggle_html("es")
+    assert 'href="en.html"' in h
+    assert "ES" in h and "EN" in h
+    assert "is-active" in h
+
+
+def test_lang_toggle_en_highlights_en_and_links_es():
+    h = ib._lang_toggle_html("en")
+    assert 'href="index.html"' in h
+    assert "is-active" in h
+
+
 from pathlib import Path
 
 
-def test_publish_delegates_static_to_root_index(monkeypatch):
+def test_publish_builds_both_languages(monkeypatch):
     from dashboard import publish as pub
-    calls = {}
+    calls = []
 
-    def fake_build(out_path, static):
-        calls["out_path"] = Path(out_path)
-        calls["static"] = static
+    def fake_build(out_path, static, lang):
+        calls.append((Path(out_path), static, lang))
         return Path(out_path)
 
     monkeypatch.setattr(pub, "build_interactive", fake_build)
     result = pub.publish()
-    assert calls["static"] is True
-    assert calls["out_path"] == Path("index.html")
-    assert result == Path("index.html")
+    assert (Path("index.html"), True, "es") in calls
+    assert (Path("en.html"), True, "en") in calls
+    assert result == [Path("index.html"), Path("en.html")]
