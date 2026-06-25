@@ -15,6 +15,7 @@ import pandas as pd
 
 from dashboard import advanced, bundle, charts, charts_advanced, prepare
 from dashboard.build import PLOTLY_CDN, _css
+from dashboard.i18n import t
 from unemployment_pipeline.datasets import read_dataset
 
 _CONTROL_CSS = """
@@ -78,6 +79,11 @@ _CONTROL_CSS = """
   .findings{padding:18px 0}
   .fade{opacity:1 !important;transform:none !important}
 }
+.langtoggle{display:inline-flex;border:1px solid #4a4b54;border-radius:8px;overflow:hidden;margin-left:6px}
+.langtoggle .lang{font-family:var(--sans);font-size:.8rem;font-weight:600;padding:7px 11px;color:var(--paper);background:#34353e;text-decoration:none}
+.langtoggle .lang+.lang{border-left:1px solid #4a4b54}
+.langtoggle .lang.is-active{background:var(--clay);color:var(--paper)}
+.langtoggle .lang:hover:not(.is-active){background:var(--clay-strong)}
 """
 
 _FINDINGS = [
@@ -111,24 +117,29 @@ def _fmt(v: Optional[float], suffix: str = "", digits: int = 1) -> str:
     return "n/a" if v is None else f"{v:.{digits}f}{suffix}"
 
 
-def _findings_html() -> str:
-    items = "".join(f"<li><b>{t}</b> <span>{d}</span></li>" for t, d in _FINDINGS)
+def _findings_html(lang: str = "es") -> str:
+    items = "".join(
+        f"<li><b>{t(title, lang)}</b> <span>{t(desc, lang)}</span></li>"
+        for title, desc in _FINDINGS
+    )
     return ('<section class="findings" id="findings"><div class="wrap fade">'
-            '<p class="eyebrow">What the full dataset says</p>'
-            '<h2>Six findings from 900 series</h2>'
+            f'<p class="eyebrow">{t("What the full dataset says", lang)}</p>'
+            f'<h2>{t("Six findings from 900 series", lang)}</h2>'
             f'<ol>{items}</ol></div></section>')
 
 
-def _exhibit(n: int, sid: str, title: str, caption: str, body: str, interactive: bool) -> str:
-    chip = '<span class="chip">interactive</span>' if interactive else ''
+def _exhibit(n: int, sid: str, title: str, caption: str, body: str, interactive: bool,
+             lang: str = "es") -> str:
+    chip = f'<span class="chip">{t("interactive", lang)}</span>' if interactive else ''
     return (f'<section class="exhibit" id="{sid}"><div class="wrap fade">'
-            f'<p class="eyebrow">Exhibit {n}</p><h2>{title}{chip}</h2>'
+            f'<p class="eyebrow">{t("Exhibit", lang)} {n}</p><h2>{title}{chip}</h2>'
             f'<p class="caption">{caption}</p>{body}</div></section>')
 
 
 def build_interactive(cache_dir: Path = Path("data/cache"),
                       out_path: Path = Path("output/dashboard.html"),
-                      static: bool = False) -> Path:
+                      static: bool = False,
+                      lang: str = "es") -> Path:
     obs = prepare.load_observations(cache_dir)
     meta = read_dataset("series_meta", cache_dir)
     occ_exp = read_dataset("exposure_occupation", cache_dir)
@@ -136,7 +147,7 @@ def build_interactive(cache_dir: Path = Path("data/cache"),
     asof = obs["date"].max().strftime("%B %Y")
 
     # ---- embedded bundle for client-side recompute ----
-    adv = advanced.advanced_bundle(obs, meta, exp_ind)
+    adv = advanced.advanced_bundle(obs, meta, exp_ind, lang=lang)
     months = sorted({d for s in adv["industries"] + adv["sectors"] for d in s["dates"]})
     base_default = "2022-11" if "2022-11" in months else months[len(months) // 2]
     compare_default = months[-1]
@@ -154,13 +165,14 @@ def build_interactive(cache_dir: Path = Path("data/cache"),
     occ = prepare.occupation_exposure(obs, meta, occ_exp)
     k = prepare.national_kpis(obs)
 
-    kpis = {"Unemployment rate": _fmt(k["unemployment_rate"], "%"),
-            "Participation": _fmt(k["lfpr"], "%"),
-            "Bachelor's+ UR": _fmt(k["ur_bachelors"], "%"),
-            "Job openings": _fmt(k["openings"], "k", 0),
-            "Quits rate": _fmt(k["quits_rate"], "%")}
+    kpis = {t("Unemployment rate", lang): _fmt(k["unemployment_rate"], "%"),
+            t("Participation", lang): _fmt(k["lfpr"], "%"),
+            t("Bachelor's+ UR", lang): _fmt(k["ur_bachelors"], "%"),
+            t("Job openings", lang): _fmt(k["openings"], "k", 0),
+            t("Quits rate", lang): _fmt(k["quits_rate"], "%")}
+    bachelors_label = t("Bachelor's+ UR", lang)
     kpi_html = "".join(
-        f'<div class="kpi{" flag" if lab == "Bachelor\'s+ UR" else ""}">'
+        f'<div class="kpi{" flag" if lab == bachelors_label else ""}">'
         f'<span class="v">{val}</span><span class="l">{lab}</span></div>'
         for lab, val in kpis.items())
 
@@ -170,75 +182,77 @@ def build_interactive(cache_dir: Path = Path("data/cache"),
 
     # (id, title, caption, body, interactive)
     specs = [
-        ("waterfall", "Where the jobs went",
-         "Every dollar of net job growth, decomposed. Each industry's signed contribution to the "
-         "total change between your two dates, summing to the net. Services build the total; "
-         "Information drains it. <b>Recomputes as you change the dates above.</b>",
+        ("waterfall", t("Where the jobs went", lang),
+         t("Every dollar of net job growth, decomposed. Each industry's signed contribution to the "
+           "total change between your two dates, summing to the net. Services build the total; "
+           "Information drains it. <b>Recomputes as you change the dates above.</b>", lang),
          '<div class="chart" id="c-waterfall" style="min-height:560px"></div>', True),
-        ("distribution", "The distribution of industry change (beeswarm)",
-         "One dot per <b>detailed (4-digit NAICS) industry</b>, around 180 of them, packed by its "
-         "employment change and colored by AI exposure (clay = more exposed), sized by employment. "
-         "At this density the beeswarm reveals the whole shape: a long clay (high-exposure) left "
-         "tail against a slate body. <b>Recomputes with the dates.</b>",
+        ("distribution", t("The distribution of industry change (beeswarm)", lang),
+         t("One dot per <b>detailed (4-digit NAICS) industry</b>, around 180 of them, packed by its "
+           "employment change and colored by AI exposure (clay = more exposed), sized by employment. "
+           "At this density the beeswarm reveals the whole shape: a long clay (high-exposure) left "
+           "tail against a slate body. <b>Recomputes with the dates.</b>", lang),
          '<div class="chart" id="c-dist" style="min-height:580px"></div>', True),
-        ("histogram", "How the distribution of change shifted",
-         "A true histogram, because here the sample is large: every industry's 12-month employment "
-         "change, every month since ChatGPT, pooled. AI-exposed industries (clay) sit a full "
-         "distribution to the left of the rest (slate); dashed lines mark the medians.",
-         _fig_html(charts_advanced.fig_change_histogram(cd), "c-hist"), False),
-        ("scatter", "Does AI exposure predict job loss?",
-         "The thesis on trial: each industry's AI-exposure score (AIIE) against its employment "
-         "change, with a fitted line. A downward slope is the displacement signature, but watch the "
-         "R-squared: exposure is <b>potential, not adoption</b>. <b>Recomputes with the dates.</b>",
+        ("histogram", t("How the distribution of change shifted", lang),
+         t("A true histogram, because here the sample is large: every industry's 12-month employment "
+           "change, every month since ChatGPT, pooled. AI-exposed industries (clay) sit a full "
+           "distribution to the left of the rest (slate); dashed lines mark the medians.", lang),
+         _fig_html(charts_advanced.fig_change_histogram(cd, lang=lang), "c-hist"), False),
+        ("scatter", t("Does AI exposure predict job loss?", lang),
+         t("The thesis on trial: each industry's AI-exposure score (AIIE) against its employment "
+           "change, with a fitted line. A downward slope is the displacement signature, but watch the "
+           "R-squared: exposure is <b>potential, not adoption</b>. <b>Recomputes with the dates.</b>",
+           lang),
          '<div class="chart" id="c-scatter" style="min-height:480px"></div>', True),
-        ("event", "Information versus a control, around ChatGPT",
-         "Information employment and a control (total private excluding Information), each indexed "
-         "to 100 at the ChatGPT launch. If the lines track before the anchor and split after, that "
-         "supports an AI break; pre-existing divergence would point to the tech-hiring unwind and "
-         "rate hikes instead.",
-         _fig_html(charts_advanced.fig_event_study(es), "c-event"), False),
-        ("freeze", "Hiring freeze, or active cuts?",
-         "Each JOLTS industry by its change in job openings (horizontal) against its change in "
-         "layoffs (vertical). Bottom-left is a quiet freeze; top-left is active cutting. Information "
-         "sits high-left: openings gone and layoffs up. <b>Recomputes with the dates.</b>",
+        ("event", t("Information versus a control, around ChatGPT", lang),
+         t("Information employment and a control (total private excluding Information), each indexed "
+           "to 100 at the ChatGPT launch. If the lines track before the anchor and split after, that "
+           "supports an AI break; pre-existing divergence would point to the tech-hiring unwind and "
+           "rate hikes instead.", lang),
+         _fig_html(charts_advanced.fig_event_study(es, lang=lang), "c-event"), False),
+        ("freeze", t("Hiring freeze, or active cuts?", lang),
+         t("Each JOLTS industry by its change in job openings (horizontal) against its change in "
+           "layoffs (vertical). Bottom-left is a quiet freeze; top-left is active cutting. Information "
+           "sits high-left: openings gone and layoffs up. <b>Recomputes with the dates.</b>", lang),
          '<div class="chart" id="c-freeze" style="min-height:480px"></div>', True),
-        ("breadth", "A decade of industry change, and its breadth",
-         "Top: year-over-year employment change by industry, years as rows and industries as narrow "
-         "columns (clay = shrinking, teal = growing); the information columns redden after 2022. "
-         "Bottom: the share of industries growing, a breadth gauge. Payrolls can rise while breadth narrows.",
-         _fig_html(charts_advanced.fig_industry_heatmap(matrix), "c-heatmap")
-         + _fig_html(charts_advanced.fig_diffusion(di), "c-diffusion"), False),
-        ("dispersion", "How unevenly slack is spread across states",
-         "The middle bands hold the central 50% and 80% of states; the clay line is labor-force-"
-         "weighted dispersion. A widening spread means states are diverging, which is what a "
-         "geographically concentrated (tech-led) shock would produce.",
-         _fig_html(charts_advanced.fig_dispersion_fan(disp), "c-dispersion"), False),
-        ("states", "Every state, by unemployment change and tech intensity (beeswarm)",
-         "One dot per state, packed by its change in unemployment, colored by its tech-employment "
-         "share (Information plus professional services). If AI were the driver, the clay (tech-"
-         "heavy) states would cluster on the right. They lean that way, but only weakly. "
-         "<b>Recomputes with the dates.</b>",
+        ("breadth", t("A decade of industry change, and its breadth", lang),
+         t("Top: year-over-year employment change by industry, years as rows and industries as narrow "
+           "columns (clay = shrinking, teal = growing); the information columns redden after 2022. "
+           "Bottom: the share of industries growing, a breadth gauge. Payrolls can rise while breadth narrows.",
+           lang),
+         _fig_html(charts_advanced.fig_industry_heatmap(matrix, lang=lang), "c-heatmap")
+         + _fig_html(charts_advanced.fig_diffusion(di, lang=lang), "c-diffusion"), False),
+        ("dispersion", t("How unevenly slack is spread across states", lang),
+         t("The middle bands hold the central 50% and 80% of states; the clay line is labor-force-"
+           "weighted dispersion. A widening spread means states are diverging, which is what a "
+           "geographically concentrated (tech-led) shock would produce.", lang),
+         _fig_html(charts_advanced.fig_dispersion_fan(disp, lang=lang), "c-dispersion"), False),
+        ("states", t("Every state, by unemployment change and tech intensity (beeswarm)", lang),
+         t("One dot per state, packed by its change in unemployment, colored by its tech-employment "
+           "share (Information plus professional services). If AI were the driver, the clay (tech-"
+           "heavy) states would cluster on the right. They lean that way, but only weakly. "
+           "<b>Recomputes with the dates.</b>", lang),
          '<div class="chart" id="c-states" style="min-height:420px"></div>', True),
-        ("education", "The education shield, tested",
-         "The high-school-minus-bachelor's unemployment gap. Generative AI uniquely targets "
-         "cognitive, degreed work, so a narrowing gap is the fingerprint to watch. It narrowed, but "
-         "graduates still hold the lower rate, counter-evidence worth stating.",
-         _fig_html(charts_advanced.fig_education_gap(edu_gap), "c-edugap"), False),
-        ("beveridge", "The Beveridge curve: a round trip to balance",
-         "Job-openings rate against unemployment, traced through time (color = year). The loop up "
-         "and left in 2021 to 2022 was an overheated market; the return toward the origin is the "
-         "normalization. This is macro context, not an AI-specific signal.",
-         _fig_html(charts_advanced.fig_beveridge(bev), "c-beveridge"), False),
-        ("occupations", "The stakes: exposed occupations today",
-         "A 2025 snapshot (no time trend): each occupation by employment and LLM exposure, sized by "
-         "headcount. It maps where exposed workers are, not whether they have been displaced. "
-         "Exposure does not equal displacement.",
-         _fig_html(charts.fig_occupation(occ), "c-occ"), False),
+        ("education", t("The education shield, tested", lang),
+         t("The high-school-minus-bachelor's unemployment gap. Generative AI uniquely targets "
+           "cognitive, degreed work, so a narrowing gap is the fingerprint to watch. It narrowed, but "
+           "graduates still hold the lower rate, counter-evidence worth stating.", lang),
+         _fig_html(charts_advanced.fig_education_gap(edu_gap, lang=lang), "c-edugap"), False),
+        ("beveridge", t("The Beveridge curve: a round trip to balance", lang),
+         t("Job-openings rate against unemployment, traced through time (color = year). The loop up "
+           "and left in 2021 to 2022 was an overheated market; the return toward the origin is the "
+           "normalization. This is macro context, not an AI-specific signal.", lang),
+         _fig_html(charts_advanced.fig_beveridge(bev, lang=lang), "c-beveridge"), False),
+        ("occupations", t("The stakes: exposed occupations today", lang),
+         t("A 2025 snapshot (no time trend): each occupation by employment and LLM exposure, sized by "
+           "headcount. It maps where exposed workers are, not whether they have been displaced. "
+           "Exposure does not equal displacement.", lang),
+         _fig_html(charts.fig_occupation(occ, lang=lang), "c-occ"), False),
     ]
-    ex = [_exhibit(n, sid, title, cap, body, inter)
+    ex = [_exhibit(n, sid, title, cap, body, inter, lang=lang)
           for n, (sid, title, cap, body, inter) in enumerate(specs, 1)]
 
-    nav = "".join(f'<a href="#{s}">{t}</a>' for s, t in [
+    nav = "".join(f'<a href="#{s}">{t(lbl, lang)}</a>' for s, lbl in [
         ("findings", "Findings"), ("waterfall", "Where jobs went"),
         ("distribution", "Swarm"), ("histogram", "Histogram"), ("scatter", "Exposure test"),
         ("event", "Event study"), ("freeze", "Freeze vs cuts"), ("breadth", "Breadth"),
@@ -248,13 +262,22 @@ def build_interactive(cache_dir: Path = Path("data/cache"),
     js = (_interactive_js().replace("__DATA__", data_json).replace("__MONTHS__", months_json)
           .replace("__BASE__", base_default).replace("__COMPARE__", compare_default))
 
-    toolbar_html = _toolbar_html(static)
-    overlay_html = _overlay_html(static)
+    toolbar_html = _toolbar_html(static, lang)
+    overlay_html = _overlay_html(static, lang)
+
+    lede_key = ("Nine hundred BLS series, explorable. Pick any two dates and the decompositions, "
+                "distributions, and relationships below all recompute. Data through {asof}.")
+    lede = t(lede_key, lang).format(asof=asof)
+
+    sources_key = ("Bureau of Labor Statistics (CPS, LAUS, CES, JOLTS, OEWS). "
+                   "AI-exposure: Eloundou, Manning, Mishkin and Rock (2023), GPTs are GPTs; "
+                   "Felten, Raj and Seamans, AI Occupational and Industry Exposure. As of {asof}.")
+    sources = t(sources_key, lang).format(asof=asof)
 
     html = f"""<!DOCTYPE html>
-<html lang="en"><head>
+<html lang="{lang}"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Has AI taken a toll on jobs? An interactive view</title>
+<title>{t("Has AI taken a toll on jobs? An interactive view", lang)}</title>
 <script src="{PLOTLY_CDN}" charset="utf-8"></script>
 <style>{_css()}{_CONTROL_CSS}</style>
 <script>document.documentElement.classList.add('js');</script>
@@ -262,33 +285,28 @@ def build_interactive(cache_dir: Path = Path("data/cache"),
 {toolbar_html}
 {overlay_html}
 <header class="hero"><div class="wrap">
-  <p class="kicker">US labor market, an interactive BLS data view</p>
-  <h1>Has AI taken a toll on jobs?</h1>
-  <p class="lede">Nine hundred BLS series, explorable. Pick any two dates and the decompositions,
-  distributions, and relationships below all recompute. Data through {asof}.</p>
+  <p class="kicker">{t("US labor market, an interactive BLS data view", lang)}</p>
+  <h1>{t("Has AI taken a toll on jobs?", lang)}</h1>
+  <p class="lede">{lede}</p>
 </div></header>
 <div class="wrap"><div class="kpis">{kpi_html}</div></div>
 <div class="controlbar"><div class="wrap">
-  <span class="lab">Compare</span>
-  <label>from <select id="sel-base"></select></label>
-  <label>to <select id="sel-compare"></select></label>
+  <span class="lab">{t("Compare", lang)}</span>
+  <label>{t("from", lang)} <select id="sel-base"></select></label>
+  <label>{t("to", lang)} <select id="sel-compare"></select></label>
   <span class="chips">
-    <button class="preset" data-b="2019-12">vs 2019</button>
-    <button class="preset" data-b="2022-11">vs ChatGPT</button>
-    <button class="preset" data-b="2023-03">vs GPT-4</button>
+    <button class="preset" data-b="2019-12">{t("vs 2019", lang)}</button>
+    <button class="preset" data-b="2022-11">{t("vs ChatGPT", lang)}</button>
+    <button class="preset" data-b="2023-03">{t("vs GPT-4", lang)}</button>
   </span>
   <span class="readout" id="readout"></span>
 </div></div>
 <nav class="toc"><div class="wrap">{nav}</div></nav>
-{_findings_html()}
+{_findings_html(lang)}
 {''.join(ex)}
 <footer><div class="wrap">
-  <div class="disclaimer"><b>Read with care.</b> These exhibits show correlation and timing, not
-  causation. The 2022 to 2023 window also holds the post-pandemic tech-hiring unwind and the Fed's
-  rate-hike cycle, both of which move these series. Treat the patterns as hypotheses to test.</div>
-  <p class="note"><b>Sources.</b> Bureau of Labor Statistics (CPS, LAUS, CES, JOLTS, OEWS).
-  AI-exposure: Eloundou, Manning, Mishkin and Rock (2023), GPTs are GPTs; Felten, Raj and Seamans,
-  AI Occupational and Industry Exposure. As of {asof}.</p>
+  <div class="disclaimer"><b>{t("Read with care.", lang)}</b> {t("These exhibits show correlation and timing, not causation. The 2022 to 2023 window also holds the post-pandemic tech-hiring unwind and the Fed's rate-hike cycle, both of which move these series. Treat the patterns as hypotheses to test.", lang)}</div>
+  <p class="note"><b>{t("Sources.", lang)}</b> {sources}</p>
 </div></footer>
 <script>{js}</script>
 <script>const io=new IntersectionObserver((es)=>es.forEach(e=>{{if(e.isIntersecting){{e.target.classList.add('in');io.unobserve(e.target)}}}}),{{threshold:0.06}});const fades=document.querySelectorAll('.fade');fades.forEach(el=>io.observe(el));setTimeout(()=>fades.forEach(el=>el.classList.add('in')),2500);</script>
@@ -434,37 +452,48 @@ function updateAll(){
 """
 
 
-def _toolbar_html(static: bool = False) -> str:
-    pdf = ('  <button id="btn-pdf" title="Open the browser print dialog; '
-           'choose Save as PDF">&#x2913; PDF</button>')
+def _lang_toggle_html(lang: str = "es") -> str:
+    es_cls = " is-active" if lang == "es" else ""
+    en_cls = " is-active" if lang == "en" else ""
+    return (
+        '<span class="langtoggle">'
+        f'<a class="lang{es_cls}" href="index.html" hreflang="es">ES</a>'
+        f'<a class="lang{en_cls}" href="en.html" hreflang="en">EN</a>'
+        '</span>'
+    )
+
+
+def _toolbar_html(static: bool = False, lang: str = "es") -> str:
+    pdf = (f'  <button id="btn-pdf" title="{t("Open the browser print dialog; choose Save as PDF", lang)}">'
+           f'&#x2913; {t("PDF", lang)}</button>')
     if static:
         buttons = pdf
     else:
         buttons = (
-            '  <input id="bls-key" type="password" autocomplete="off" '
-            'placeholder="BLS API key (optional; uses .env default)">\n'
-            '  <button id="btn-refresh" class="primary" '
-            'title="Re-fetch the latest data from the BLS API">'
-            '&#x21bb; Refresh from BLS</button>\n'
+            f'  <input id="bls-key" type="password" autocomplete="off" '
+            f'placeholder="{t("BLS API key (optional; uses .env default)", lang)}">\n'
+            f'  <button id="btn-refresh" class="primary" '
+            f'title="{t("Re-fetch the latest data from the BLS API", lang)}">'
+            f'&#x21bb; {t("Refresh from BLS", lang)}</button>\n'
             f'{pdf}\n'
-            '  <button id="btn-xlsx" '
-            'title="Download every chart&#39;s data, one sheet per chart">'
-            '&#x2913; Data (Excel)</button>'
+            f'  <button id="btn-xlsx" '
+            f'title="{t("Download every chart\'s data, one sheet per chart", lang)}">'
+            f'&#x2913; {t("Data (Excel)", lang)}</button>'
         )
     return ('<div class="toolbar"><div class="wrap">\n'
-            '  <span class="brand">AI &amp; US jobs</span>\n'
+            f'  <span class="brand">{t("AI & US jobs", lang)}</span>\n'
             f'{buttons}\n'
+            f'  {_lang_toggle_html(lang)}\n'
             '</div></div>')
 
 
-def _overlay_html(static: bool = False) -> str:
+def _overlay_html(static: bool = False, lang: str = "es") -> str:
     if static:
         return ""
     return ('<div id="overlay"><div class="loader">\n'
             '  <div class="bars"><i></i><i></i><i></i><i></i><i></i></div>\n'
-            '  <div class="msg">Fetching the latest data from BLS&hellip;</div>\n'
-            '  <div class="sub">This can take up to a minute. '
-            'The page will reload when done.</div>\n'
+            f'  <div class="msg">{t("Fetching the latest data from BLS…", lang)}</div>\n'
+            f'  <div class="sub">{t("This can take up to a minute. The page will reload when done.", lang)}</div>\n'
             '</div></div>')
 
 

@@ -38,6 +38,19 @@ def test_toolbar_js_full_wires_server_actions():
     assert "window.print()" in js
 
 
+def test_lang_toggle_es_highlights_es_and_links_en():
+    h = ib._lang_toggle_html("es")
+    assert 'href="en.html"' in h
+    assert "ES" in h and "EN" in h
+    assert "is-active" in h
+
+
+def test_lang_toggle_en_highlights_en_and_links_es():
+    h = ib._lang_toggle_html("en")
+    assert 'href="index.html"' in h
+    assert "is-active" in h
+
+
 from pathlib import Path
 
 
