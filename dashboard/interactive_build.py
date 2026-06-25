@@ -127,7 +127,8 @@ def _exhibit(n: int, sid: str, title: str, caption: str, body: str, interactive:
 
 
 def build_interactive(cache_dir: Path = Path("data/cache"),
-                      out_path: Path = Path("output/dashboard.html")) -> Path:
+                      out_path: Path = Path("output/dashboard.html"),
+                      static: bool = False) -> Path:
     obs = prepare.load_observations(cache_dir)
     meta = read_dataset("series_meta", cache_dir)
     occ_exp = read_dataset("exposure_occupation", cache_dir)
@@ -247,6 +248,9 @@ def build_interactive(cache_dir: Path = Path("data/cache"),
     js = (_interactive_js().replace("__DATA__", data_json).replace("__MONTHS__", months_json)
           .replace("__BASE__", base_default).replace("__COMPARE__", compare_default))
 
+    toolbar_html = _toolbar_html(static)
+    overlay_html = _overlay_html(static)
+
     html = f"""<!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
@@ -255,18 +259,8 @@ def build_interactive(cache_dir: Path = Path("data/cache"),
 <style>{_css()}{_CONTROL_CSS}</style>
 <script>document.documentElement.classList.add('js');</script>
 </head><body>
-<div class="toolbar"><div class="wrap">
-  <span class="brand">AI &amp; US jobs</span>
-  <input id="bls-key" type="password" autocomplete="off" placeholder="BLS API key (optional; uses .env default)">
-  <button id="btn-refresh" class="primary" title="Re-fetch the latest data from the BLS API">&#x21bb; Refresh from BLS</button>
-  <button id="btn-pdf" title="Open the browser print dialog; choose Save as PDF">&#x2913; PDF</button>
-  <button id="btn-xlsx" title="Download every chart's data, one sheet per chart">&#x2913; Data (Excel)</button>
-</div></div>
-<div id="overlay"><div class="loader">
-  <div class="bars"><i></i><i></i><i></i><i></i><i></i></div>
-  <div class="msg">Fetching the latest data from BLS&hellip;</div>
-  <div class="sub">This can take up to a minute. The page will reload when done.</div>
-</div></div>
+{toolbar_html}
+{overlay_html}
 <header class="hero"><div class="wrap">
   <p class="kicker">US labor market, an interactive BLS data view</p>
   <h1>Has AI taken a toll on jobs?</h1>
@@ -298,7 +292,7 @@ def build_interactive(cache_dir: Path = Path("data/cache"),
 </div></footer>
 <script>{js}</script>
 <script>const io=new IntersectionObserver((es)=>es.forEach(e=>{{if(e.isIntersecting){{e.target.classList.add('in');io.unobserve(e.target)}}}}),{{threshold:0.06}});const fades=document.querySelectorAll('.fade');fades.forEach(el=>io.observe(el));setTimeout(()=>fades.forEach(el=>el.classList.add('in')),2500);</script>
-<script>{_toolbar_js()}</script>
+<script>{_toolbar_js(static)}</script>
 </body></html>"""
 
     out_path = Path(out_path)
