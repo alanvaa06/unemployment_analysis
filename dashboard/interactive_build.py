@@ -440,7 +440,46 @@ function updateAll(){
 """
 
 
-def _toolbar_js() -> str:
+def _toolbar_html(static: bool = False) -> str:
+    pdf = ('  <button id="btn-pdf" title="Open the browser print dialog; '
+           'choose Save as PDF">&#x2913; PDF</button>')
+    if static:
+        buttons = pdf
+    else:
+        buttons = (
+            '  <input id="bls-key" type="password" autocomplete="off" '
+            'placeholder="BLS API key (optional; uses .env default)">\n'
+            '  <button id="btn-refresh" class="primary" '
+            'title="Re-fetch the latest data from the BLS API">'
+            '&#x21bb; Refresh from BLS</button>\n'
+            f'{pdf}\n'
+            '  <button id="btn-xlsx" '
+            'title="Download every chart&#39;s data, one sheet per chart">'
+            '&#x2913; Data (Excel)</button>'
+        )
+    return ('<div class="toolbar"><div class="wrap">\n'
+            '  <span class="brand">AI &amp; US jobs</span>\n'
+            f'{buttons}\n'
+            '</div></div>')
+
+
+def _overlay_html(static: bool = False) -> str:
+    if static:
+        return ""
+    return ('<div id="overlay"><div class="loader">\n'
+            '  <div class="bars"><i></i><i></i><i></i><i></i><i></i></div>\n'
+            '  <div class="msg">Fetching the latest data from BLS&hellip;</div>\n'
+            '  <div class="sub">This can take up to a minute. '
+            'The page will reload when done.</div>\n'
+            '</div></div>')
+
+
+def _toolbar_js(static: bool = False) -> str:
+    if static:
+        return r"""
+const $=id=>document.getElementById(id);
+$("btn-pdf").addEventListener("click", ()=>window.print());
+"""
     return r"""
 const $=id=>document.getElementById(id);
 const served=()=>location.protocol.indexOf("http")===0;
