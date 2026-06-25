@@ -27,6 +27,12 @@
 - [x] "Six findings" lead section from insight-mining workflow (verified)
 - [x] Advanced-viz suite (5-lens tournament -> spec -> TDD): waterfall, distribution, exposure scatter w/ OLS, event-study, freeze-vs-cuts, heatmap+diffusion, dispersion fan, education gap, Beveridge, occupation bubble; 4 client-side interactive; 59 tests green
 
+## Phase 5 — Publish to GitHub Pages (DONE 2026-06-25)
+- [x] `static=True` mode on `build_interactive` (drops server-only buttons, keeps PDF)
+- [x] `dashboard/publish.py` → repo-root `index.html` + `.nojekyll`
+- [x] Merge to main, enable Pages (main/root), verify live
+- [x] Live: https://alanvaa06.github.io/unemployment_analysis/
+
 ## Phase 4 — Econometric layer (DEFERRED — next)
 - [ ] Diff-in-diff / event study, continuous exposure × post-2022, parallel-trends
 - [ ] Multiple exposure indices + outcome sources (CPS vs payroll)
