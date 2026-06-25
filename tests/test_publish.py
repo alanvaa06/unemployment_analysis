@@ -36,3 +36,22 @@ def test_toolbar_js_full_wires_server_actions():
     assert "/api/refresh" in js
     assert "/api/export" in js
     assert "window.print()" in js
+
+
+from pathlib import Path
+
+
+def test_publish_delegates_static_to_root_index(monkeypatch):
+    from dashboard import publish as pub
+    calls = {}
+
+    def fake_build(out_path, static):
+        calls["out_path"] = Path(out_path)
+        calls["static"] = static
+        return Path(out_path)
+
+    monkeypatch.setattr(pub, "build_interactive", fake_build)
+    result = pub.publish()
+    assert calls["static"] is True
+    assert calls["out_path"] == Path("index.html")
+    assert result == Path("index.html")
