@@ -293,6 +293,9 @@ def build_interactive(cache_dir: Path = Path("data/cache"),
 <html lang="{lang}"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{t("Has AI taken a toll on jobs? An interactive view", lang)}</title>
+<link rel="alternate" hreflang="es" href="https://alanvaa06.github.io/unemployment_analysis/index.html">
+<link rel="alternate" hreflang="en" href="https://alanvaa06.github.io/unemployment_analysis/en.html">
+<link rel="alternate" hreflang="x-default" href="https://alanvaa06.github.io/unemployment_analysis/index.html">
 <script src="{PLOTLY_CDN}" charset="utf-8"></script>
 <style>{_css()}{_CONTROL_CSS}</style>
 <script>document.documentElement.classList.add('js');</script>

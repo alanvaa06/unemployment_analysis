@@ -54,17 +54,16 @@ def test_lang_toggle_en_highlights_en_and_links_es():
 from pathlib import Path
 
 
-def test_publish_delegates_static_to_root_index(monkeypatch):
+def test_publish_builds_both_languages(monkeypatch):
     from dashboard import publish as pub
-    calls = {}
+    calls = []
 
-    def fake_build(out_path, static):
-        calls["out_path"] = Path(out_path)
-        calls["static"] = static
+    def fake_build(out_path, static, lang):
+        calls.append((Path(out_path), static, lang))
         return Path(out_path)
 
     monkeypatch.setattr(pub, "build_interactive", fake_build)
     result = pub.publish()
-    assert calls["static"] is True
-    assert calls["out_path"] == Path("index.html")
-    assert result == Path("index.html")
+    assert (Path("index.html"), True, "es") in calls
+    assert (Path("en.html"), True, "en") in calls
+    assert result == [Path("index.html"), Path("en.html")]
