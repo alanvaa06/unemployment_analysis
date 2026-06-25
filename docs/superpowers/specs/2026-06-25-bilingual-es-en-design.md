@@ -31,13 +31,18 @@ language is rendered to its own self-contained static HTML via the existing
 render path (no client-side relabeling). This fits the current design, where 6 of
 10 charts are server-rendered.
 
-### 1. Translation table — `dashboard/i18n.py` (new)
+### 1. Translation table — `dashboard/translations.json` + `dashboard/i18n.py` (new)
+
+The Spanish lives in a committed, reviewable `dashboard/translations.json` (a list
+of `{english, spanish, uncertain, note}`, 194 entries, produced by the
+extract+translate workflow). `i18n.py` loads it into a dict and exposes `t()`:
 
 ```python
-ES: dict[str, str] = {
-    "Unemployment rate": "Tasa de desempleo",
-    # ... one entry per English source string
-}
+import json
+from pathlib import Path
+
+_DATA = json.loads((Path(__file__).parent / "translations.json").read_text(encoding="utf-8"))
+ES: dict[str, str] = {row["english"]: row["spanish"] for row in _DATA}
 
 def t(s: str, lang: str = "es") -> str:
     """Translate an English source string. lang='en' is identity."""
@@ -45,6 +50,9 @@ def t(s: str, lang: str = "es") -> str:
         return s
     return ES.get(s, s)   # missing → English fallback (visible, never crashes)
 ```
+
+Alan reviews/edits the Spanish directly in `translations.json`; no code change
+needed to correct a term.
 
 - The **English string is its own key** — no invented IDs, minimal churn, EN path
   is identity.
