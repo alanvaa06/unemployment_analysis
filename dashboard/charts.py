@@ -4,6 +4,8 @@ from __future__ import annotations
 import pandas as pd
 import plotly.graph_objects as go
 
+from dashboard.i18n import t
+
 # Semantic data palette (hex approximations of the OKLCH tokens used in CSS).
 # Color is an ENCODING: clay = decline / AI-exposed, teal = growth, slate = neutral/baseline.
 INK = "#26272e"
@@ -58,44 +60,44 @@ def _recession_shading(fig: go.Figure, x0_min: pd.Timestamp) -> None:
                       line_width=0, layer="below")
 
 
-def _chatgpt_marker(fig: go.Figure) -> None:
+def _chatgpt_marker(fig: go.Figure, lang: str = "es") -> None:
     fig.add_vline(x=CHATGPT, line=dict(color=CLAY, width=1.4, dash="dot"))
-    fig.add_annotation(x=CHATGPT, yref="paper", y=1.0, text="ChatGPT (Nov 2022)",
+    fig.add_annotation(x=CHATGPT, yref="paper", y=1.0, text=t("ChatGPT (Nov 2022)", lang),
                        showarrow=False, font=dict(color=CLAY, size=11),
                        xanchor="left", xshift=6, yanchor="top")
 
 
-def fig_unemployment(ur: pd.DataFrame) -> go.Figure:
+def fig_unemployment(ur: pd.DataFrame, lang: str = "es") -> go.Figure:
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=ur["date"], y=ur["value"], mode="lines",
-                             line=dict(color=INK, width=1.6), name="U-3",
+                             line=dict(color=INK, width=1.6), name=t("U-3", lang),
                              hovertemplate="%{x|%b %Y}: %{y:.1f}%<extra></extra>"))
     if not ur.empty:
         _recession_shading(fig, ur["date"].min())
-    _chatgpt_marker(fig)
+    _chatgpt_marker(fig, lang)
     fig.update_yaxes(ticksuffix="%")
     return _template(fig, 380)
 
 
-def fig_education(edu: pd.DataFrame) -> go.Figure:
+def fig_education(edu: pd.DataFrame, lang: str = "es") -> go.Figure:
     fig = go.Figure()
     series = [
-        ("less_than_hs", "Less than high school", CLAY, 1.4),
-        ("high_school", "High school, no college", CLAY_SOFT, 1.4),
-        ("some_college", "Some college / associate", SLATE, 1.4),
-        ("bachelors_plus", "Bachelor's and higher", TEAL, 2.0),
+        ("less_than_hs", t("Less than high school", lang), CLAY, 1.4),
+        ("high_school", t("High school, no college", lang), CLAY_SOFT, 1.4),
+        ("some_college", t("Some college / associate", lang), SLATE, 1.4),
+        ("bachelors_plus", t("Bachelor's and higher", lang), TEAL, 2.0),
     ]
     for col, label, color, width in series:
         if col in edu.columns:
             fig.add_trace(go.Scatter(x=edu["date"], y=edu[col], mode="lines",
                                      line=dict(color=color, width=width), name=label,
                                      hovertemplate=f"{label}<br>%{{x|%b %Y}}: %{{y:.1f}}%<extra></extra>"))
-    _chatgpt_marker(fig)
+    _chatgpt_marker(fig, lang)
     fig.update_yaxes(ticksuffix="%")
     return _template(fig, 420)
 
 
-def fig_sector_index(idx: pd.DataFrame) -> go.Figure:
+def fig_sector_index(idx: pd.DataFrame, lang: str = "es") -> go.Figure:
     fig = go.Figure()
     palette = {"Total nonfarm": INK, "Information": CLAY,
                "Professional & business services": SLATE}
@@ -108,38 +110,38 @@ def fig_sector_index(idx: pd.DataFrame) -> go.Figure:
                                  name=col,
                                  hovertemplate=f"{col}<br>%{{x|%b %Y}}: %{{y:.1f}}<extra></extra>"))
     fig.add_hline(y=100, line=dict(color=MUTED, width=1, dash="dash"))
-    fig.update_yaxes(title="Index, Nov 2022 = 100")
+    fig.update_yaxes(title=t("Index, Nov 2022 = 100", lang))
     fig.update_xaxes(range=["2019-01-01", str(idx["date"].max().date()) if not idx.empty else None])
     return _template(fig, 420)
 
 
-def fig_jolts(total: pd.DataFrame, info: pd.DataFrame) -> go.Figure:
+def fig_jolts(total: pd.DataFrame, info: pd.DataFrame, lang: str = "es") -> go.Figure:
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=total["date"], y=total["openings"], mode="lines",
-                             line=dict(color=SLATE, width=1.8), name="Openings (total nonfarm)",
-                             hovertemplate="Openings<br>%{x|%b %Y}: %{y:,.0f}k<extra></extra>"))
+                             line=dict(color=SLATE, width=1.8), name=t("Openings (total nonfarm)", lang),
+                             hovertemplate=f"{t('Openings', lang)}<br>%{{x|%b %Y}}: %{{y:,.0f}}k<extra></extra>"))
     fig.add_trace(go.Scatter(x=total["date"], y=total["hires"], mode="lines",
-                             line=dict(color=INK, width=1.6), name="Hires (total nonfarm)",
-                             hovertemplate="Hires<br>%{x|%b %Y}: %{y:,.0f}k<extra></extra>"))
+                             line=dict(color=INK, width=1.6), name=t("Hires (total nonfarm)", lang),
+                             hovertemplate=f"{t('Hires', lang)}<br>%{{x|%b %Y}}: %{{y:,.0f}}k<extra></extra>"))
     if not info.empty:
         fig.add_trace(go.Scatter(x=info["date"], y=info["openings"], mode="lines",
                                  line=dict(color=CLAY, width=1.8, dash="solid"),
-                                 name="Openings (Information)", yaxis="y2",
-                                 hovertemplate="Info openings<br>%{x|%b %Y}: %{y:,.0f}k<extra></extra>"))
-    _chatgpt_marker(fig)
-    fig.update_layout(yaxis=dict(title="Total nonfarm (000s)", gridcolor=LINE),
-                      yaxis2=dict(title="Information (000s)", overlaying="y",
+                                 name=t("Openings (Information)", lang), yaxis="y2",
+                                 hovertemplate=f"{t('Info openings', lang)}<br>%{{x|%b %Y}}: %{{y:,.0f}}k<extra></extra>"))
+    _chatgpt_marker(fig, lang)
+    fig.update_layout(yaxis=dict(title=t("Total nonfarm (000s)", lang), gridcolor=LINE),
+                      yaxis2=dict(title=t("Information (000s)", lang), overlaying="y",
                                   side="right", showgrid=False, color=CLAY))
     return _template(fig, 420)
 
 
-def fig_state_map(states: pd.DataFrame) -> go.Figure:
+def fig_state_map(states: pd.DataFrame, lang: str = "es") -> go.Figure:
     states = states[states["abbr"] != "PR"]
     fig = go.Figure(go.Choropleth(
         locations=states["abbr"], z=states["ur"], locationmode="USA-states",
         colorscale=[[0, "#eef0f3"], [0.5, CLAY_SOFT], [1, CLAY]],
         marker_line_color="#ffffff", marker_line_width=0.6,
-        colorbar=dict(title="UR %", thickness=12, len=0.7, outlinewidth=0),
+        colorbar=dict(title=t("UR %", lang), thickness=12, len=0.7, outlinewidth=0),
         text=states["name"],
         hovertemplate="%{text}: %{z:.1f}%<extra></extra>"))
     fig.update_layout(geo=dict(scope="usa", bgcolor=PAPER, lakecolor=PAPER,
@@ -149,21 +151,23 @@ def fig_state_map(states: pd.DataFrame) -> go.Figure:
     return fig
 
 
-def fig_tightness(t: pd.DataFrame) -> go.Figure:
+def fig_tightness(df: pd.DataFrame, lang: str = "es") -> go.Figure:
     fig = go.Figure()
-    fig.add_trace(go.Scatter(x=t["date"], y=t["ratio"], mode="lines",
+    fig.add_trace(go.Scatter(x=df["date"], y=df["ratio"], mode="lines",
                              line=dict(color=INK, width=1.6),
-                             name="Unemployed per opening",
+                             name=t("Unemployed per opening", lang),
                              hovertemplate="%{x|%b %Y}: %{y:.2f}<extra></extra>"))
     fig.add_hline(y=1.0, line=dict(color=CLAY, width=1, dash="dash"),
-                  annotation_text="balance (1.0)", annotation_font_color=CLAY)
-    _chatgpt_marker(fig)
+                  annotation_text=t("balance (1.0)", lang), annotation_font_color=CLAY)
+    _chatgpt_marker(fig, lang)
     return _template(fig, 360)
 
 
 def fig_industry_change(df: pd.DataFrame, value_col: str = "chg_since_chatgpt_pct",
-                        title: str = "% change since Nov 2022") -> go.Figure:
+                        title: str | None = None, lang: str = "es") -> go.Figure:
     """Horizontal leaderboard of industry employment change; clay = decline."""
+    if title is None:
+        title = t("% change since Nov 2022", lang)
     d = df.dropna(subset=[value_col]).sort_values(value_col)
     colors = [CLAY if v < 0 else SLATE for v in d[value_col]]
     fig = go.Figure(go.Bar(
@@ -176,11 +180,11 @@ def fig_industry_change(df: pd.DataFrame, value_col: str = "chg_since_chatgpt_pc
     return _template(fig, height)
 
 
-def fig_education_distribution(dist: pd.DataFrame) -> go.Figure:
+def fig_education_distribution(dist: pd.DataFrame, lang: str = "es") -> go.Figure:
     """100% stacked area of employment share by educational attainment over time."""
     order = ["less_than_hs", "high_school", "some_college", "bachelors_plus"]
-    labels = {"less_than_hs": "Less than high school", "high_school": "High school",
-              "some_college": "Some college / associate", "bachelors_plus": "Bachelor's and higher"}
+    labels = {"less_than_hs": t("Less than high school", lang), "high_school": t("High school", lang),
+              "some_college": t("Some college / associate", lang), "bachelors_plus": t("Bachelor's and higher", lang)}
     colors = {"less_than_hs": CLAY, "high_school": CLAY_SOFT,
               "some_college": SLATE, "bachelors_plus": TEAL}
     fig = go.Figure()
@@ -192,12 +196,12 @@ def fig_education_distribution(dist: pd.DataFrame) -> go.Figure:
             x=sub["date"], y=sub["share"] * 100, mode="lines", stackgroup="one",
             name=labels[edu], line=dict(width=0.5, color=colors[edu]),
             fillcolor=colors[edu], hovertemplate=f"{labels[edu]}<br>%{{x|%Y}}: %{{y:.1f}}%<extra></extra>"))
-    _chatgpt_marker(fig)
-    fig.update_yaxes(title="Share of employment", ticksuffix="%", range=[0, 100])
+    _chatgpt_marker(fig, lang)
+    fig.update_yaxes(title=t("Share of employment", lang), ticksuffix="%", range=[0, 100])
     return _template(fig, 420)
 
 
-def fig_occupation(occ: pd.DataFrame) -> go.Figure:
+def fig_occupation(occ: pd.DataFrame, lang: str = "es") -> go.Figure:
     occ = occ.copy()
     occ["short"] = occ["label"].str.replace(r":.*$", "", regex=True)
     fig = go.Figure()
@@ -208,8 +212,8 @@ def fig_occupation(occ: pd.DataFrame) -> go.Figure:
         marker=dict(size=(occ["employment"] ** 0.5) / 40 + 8,
                     color=occ["gpts_beta"], colorscale=[[0, TEAL], [1, CLAY]],
                     cmin=0, cmax=1, opacity=0.85, line=dict(color="#ffffff", width=1),
-                    colorbar=dict(title="LLM exp", thickness=11, len=0.5, outlinewidth=0)),
-        hovertemplate="%{text}<br>employment: %{x:,.0f}<br>LLM exposure (beta): %{y:.2f}<extra></extra>"))
-    fig.update_xaxes(type="log", title="Employment (log scale)")
-    fig.update_yaxes(title="LLM exposure (GPTs beta)")
+                    colorbar=dict(title=t("LLM exp", lang), thickness=11, len=0.5, outlinewidth=0)),
+        hovertemplate=f"%{{text}}<br>{t('employment', lang)}: %{{x:,.0f}}<br>{t('LLM exposure (beta)', lang)}: %{{y:.2f}}<extra></extra>"))
+    fig.update_xaxes(type="log", title=t("Employment (log scale)", lang))
+    fig.update_yaxes(title=t("LLM exposure (GPTs beta)", lang))
     return _template(fig, 440)

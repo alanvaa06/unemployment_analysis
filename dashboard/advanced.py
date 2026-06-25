@@ -10,6 +10,7 @@ from typing import Optional, Sequence
 import numpy as np
 import pandas as pd
 
+from dashboard.i18n import t
 from dashboard.prepare import _value_asof, _latest  # reuse helpers
 from unemployment_pipeline.programs.constants import STATE_FIPS
 
@@ -302,8 +303,12 @@ def change_distribution(obs: pd.DataFrame, exposed_ids: Sequence[str],
 
 
 def advanced_bundle(obs: pd.DataFrame, meta: pd.DataFrame,
-                    exposure_ind: pd.DataFrame) -> dict:
-    """Compact JSON-ready bundle for client-side recompute of the interactive charts."""
+                    exposure_ind: pd.DataFrame, lang: str = "es") -> dict:
+    """Compact JSON-ready bundle for client-side recompute of the interactive charts.
+
+    Each entry carries an English ``label`` (the data/join key, kept stable) plus a
+    ``tlabel`` display label translated for ``lang``; the client JS renders ``tlabel``.
+    """
     from dashboard.bundle import _monthly, monthly_sector_bundle
     from dashboard.prepare import _clean_label
 
@@ -317,7 +322,7 @@ def advanced_bundle(obs: pd.DataFrame, meta: pd.DataFrame,
         seen.add(sid)
         aiie = _aiie_for(exposure_ind, sid)
         industries.append({
-            "key": sid, "label": label, "naics": naics,
+            "key": sid, "label": label, "tlabel": t(label, lang), "naics": naics,
             "aiie": None if (aiie != aiie) else round(aiie, 3),  # NaN -> None
             "leaf": sid in {s for s, _, _ in LEAF_PARTITION},
             "display": sid in {s for s, _, _ in DISPLAY_INDUSTRIES},
@@ -336,7 +341,8 @@ def advanced_bundle(obs: pd.DataFrame, meta: pd.DataFrame,
             dates, values = _monthly(obs, r.series_id)
             if not dates:
                 continue
-            jolts.append({"code": code, "label": _clean_label(r.label),
+            clbl = _clean_label(r.label)
+            jolts.append({"code": code, "label": clbl, "tlabel": t(clbl, lang),
                           "element": element, "dates": dates, "values": values})
     # states: monthly UR + a tech-employment-share scalar (for the beeswarm)
     states = []
@@ -365,7 +371,8 @@ def advanced_bundle(obs: pd.DataFrame, meta: pd.DataFrame,
         if not dates:
             continue
         a = aiie_map.get(naics)
-        detailed.append({"key": r.series_id, "label": r.label, "naics": naics,
+        detailed.append({"key": r.series_id, "label": r.label, "tlabel": t(r.label, lang),
+                         "naics": naics,
                          "aiie": None if a is None or a != a else round(float(a), 3),
                          "dates": dates, "values": values})
     return {"industries": industries, "jolts": jolts, "sectors": monthly_sector_bundle(obs),
