@@ -76,6 +76,21 @@ opens as a static file (`output/dashboard.html`), though the Refresh/Export butt
 The curated, live-verified series universe ships in `data/reference/expanded_series.json` so you get
 the full detailed-industry coverage without re-running enumeration.
 
+## Live site (GitHub Pages)
+
+Published at: https://alanvaa06.github.io/unemployment_analysis/
+
+Re-publish after a data refresh:
+
+```bash
+python -m dashboard.publish    # writes a static index.html at repo root
+git add index.html && git commit -m "build: refresh published dashboard" && git push
+```
+
+The published page is a snapshot: the static build drops the server-only
+Refresh/Excel buttons (keeping client-side PDF). Live BLS refresh and Excel
+export remain in the local app (`python app.py`).
+
 ---
 
 ## Key findings (verified from the data)
