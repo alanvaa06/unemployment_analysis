@@ -1,0 +1,1166 @@
+[
+  {
+    "english": "Information employment peaked the month ChatGPT launched.",
+    "spanish": "El empleo en el sector de Información alcanzó su máximo el mes en que se lanzó ChatGPT.",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Down 332,000 jobs (10.7%) from the November 2022 peak, yet only 3.7% below 2019. Most of the decline is post-ChatGPT. Move the baseline below to see it.",
+    "spanish": "332,000 empleos menos (10.7%) respecto del máximo de noviembre de 2022, aunque solo 3.7% por debajo de 2019. La mayor parte de la caída es posterior a ChatGPT. Mueva la línea base de abajo para verlo.",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "The verdict flips with your baseline.",
+    "spanish": "El veredicto cambia según la línea base que elija.",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Software publishers are up 35% since 2019 but flat since late 2022. The date control turns that fragility into something you can test yourself.",
+    "spanish": "Las editoras de software (software publishers) crecieron 35% desde 2019, pero se mantienen sin cambios desde finales de 2022. El control de fechas convierte esa fragilidad en algo que usted mismo puede comprobar.",
+    "uncertain": true,
+    "note": "'Software publishers' is a NAICS industry label; left glossed with the English term. Reviewer may prefer keeping it untranslated as a proper category name."
+  },
+  {
+    "english": "More AI-exposed industries shrank more, but the fit is weak.",
+    "spanish": "Las industrias más expuestas a la IA se contrajeron más, pero el ajuste es débil.",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "The exposure-vs-change slope is negative yet explains little (R-squared near 0.04). Exposure is potential, not adoption; read it as suggestive, not proof.",
+    "spanish": "La pendiente de exposición frente a cambio es negativa, pero explica poco (R-cuadrada cercana a 0.04). La exposición es potencial, no adopción; interprétela como indicativa, no como prueba.",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Hiring froze and, in tech, turned to cuts.",
+    "spanish": "La contratación se congeló y, en el sector tecnológico, se tornó en recortes.",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Information job openings fell 61% while its layoffs rose 43%, active cutting. Manufacturing shows the quieter low-hire, low-fire pattern instead.",
+    "spanish": "Las vacantes en el sector de Información cayeron 61% mientras sus despidos subieron 43%, un recorte activo. La manufactura muestra, en cambio, el patrón más silencioso de baja contratación y baja separación.",
+    "uncertain": true,
+    "note": "'low-fire' rendered as 'baja separación' (separaciones); could also be 'bajos despidos'. Reviewer should confirm whether the dashboard distinguishes layoffs from total separations."
+  },
+  {
+    "english": "The labor market round-tripped to balance.",
+    "spanish": "El mercado laboral hizo un viaje de ida y vuelta hasta el equilibrio.",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "The Beveridge curve looped from historically overheated (2022) back toward normal, with openings per unemployed near 1.0.",
+    "spanish": "La curva de Beveridge trazó un bucle desde un sobrecalentamiento histórico (2022) de regreso hacia la normalidad, con vacantes por desempleado cercanas a 1.0.",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "The educated were not hit harder, in levels.",
+    "spanish": "Los más educados no resultaron más afectados, en niveles.",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "The high-school-minus-bachelor's unemployment gap narrowed, but graduates kept the lower rate. A clean AI-displacement story would show otherwise.",
+    "spanish": "La brecha de desempleo entre quienes tienen bachillerato y quienes tienen licenciatura se estrechó, pero los titulados mantuvieron la tasa más baja. Una historia clara de desplazamiento por IA mostraría lo contrario.",
+    "uncertain": true,
+    "note": "'high school' rendered as 'bachillerato' and 'bachelor's' as 'licenciatura' per MX register; reviewer should confirm these education levels match the intended US categories."
+  },
+  {
+    "english": "n/a",
+    "spanish": "n/d",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "interactive",
+    "spanish": "interactivo",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "What the full dataset says",
+    "spanish": "Lo que dice el conjunto completo de datos",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Six findings from 900 series",
+    "spanish": "Seis hallazgos a partir de 900 series",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Exhibit",
+    "spanish": "Gráfico",
+    "uncertain": true,
+    "note": "'Exhibit' rendered as 'Gráfico'; could also be 'Anexo' or 'Cuadro'. Reviewer should confirm whether these are numbered figures (Gráfico/Figura) or annexes."
+  },
+  {
+    "english": "Unemployment rate",
+    "spanish": "Tasa de desempleo",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Participation",
+    "spanish": "Participación laboral",
+    "uncertain": true,
+    "note": "Standalone label; expanded to 'Participación laboral' for clarity. Reviewer may prefer plain 'Participación' or 'Tasa de participación' to match column width."
+  },
+  {
+    "english": "Bachelor's+ UR",
+    "spanish": "Tasa de desempleo con licenciatura o más",
+    "uncertain": true,
+    "note": "'Bachelor's+' = licenciatura o más; 'UR' expanded to 'Tasa de desempleo'. Reviewer should confirm space constraints (label may need abbreviating)."
+  },
+  {
+    "english": "Job openings",
+    "spanish": "Vacantes",
+    "uncertain": true,
+    "note": "'Vacantes' is standard (JOLTS); some prefer 'Vacantes de empleo' or 'Ofertas de empleo'. Flagged per instructions."
+  },
+  {
+    "english": "Quits rate",
+    "spanish": "Tasa de renuncias",
+    "uncertain": true,
+    "note": "JOLTS 'quits' = renuncias voluntarias; 'Tasa de renuncias' is standard but reviewer may prefer 'Tasa de renuncias voluntarias'."
+  },
+  {
+    "english": "Where the jobs went",
+    "spanish": "A dónde se fueron los empleos",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Every dollar of net job growth, decomposed. Each industry's signed contribution to the total change between your two dates, summing to the net. Services build the total; Information drains it. Recomputes as you change the dates above.",
+    "spanish": "Todo el crecimiento neto del empleo, descompuesto. La contribución con signo de cada industria al cambio total entre las dos fechas que elija, cuya suma da el neto. Los servicios construyen el total; Información lo drena. Se recalcula al cambiar las fechas de arriba.",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "The distribution of industry change (beeswarm)",
+    "spanish": "La distribución del cambio por industria (gráfico de enjambre)",
+    "uncertain": true,
+    "note": "'beeswarm' rendered as 'gráfico de enjambre'; the English term is widely kept untranslated. Reviewer may prefer leaving 'beeswarm' as-is."
+  },
+  {
+    "english": "One dot per detailed (4-digit NAICS) industry, around 180 of them, packed by its employment change and colored by AI exposure (clay = more exposed), sized by employment. At this density the beeswarm reveals the whole shape: a long clay (high-exposure) left tail against a slate body. Recomputes with the dates.",
+    "spanish": "Un punto por cada industria detallada (NAICS de 4 dígitos), alrededor de 180, agrupadas según su cambio en el empleo y coloreadas por exposición a la IA (arcilla = más expuesta), con tamaño proporcional al empleo. A esta densidad, el enjambre revela la forma completa: una larga cola izquierda en color arcilla (alta exposición) frente a un cuerpo en color pizarra. Se recalcula con las fechas.",
+    "uncertain": true,
+    "note": "Color names 'clay'/'slate' rendered as 'arcilla'/'pizarra' to match the dashboard palette; reviewer should confirm these match the actual UI color labels."
+  },
+  {
+    "english": "How the distribution of change shifted",
+    "spanish": "Cómo se desplazó la distribución del cambio",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "A true histogram, because here the sample is large: every industry's 12-month employment change, every month since ChatGPT, pooled. AI-exposed industries (clay) sit a full distribution to the left of the rest (slate); dashed lines mark the medians.",
+    "spanish": "Un histograma propiamente dicho, porque aquí la muestra es grande: el cambio del empleo a 12 meses de cada industria, en cada mes desde ChatGPT, agrupados. Las industrias expuestas a la IA (arcilla) se sitúan una distribución completa a la izquierda del resto (pizarra); las líneas punteadas marcan las medianas.",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Does AI exposure predict job loss?",
+    "spanish": "¿Predice la exposición a la IA la pérdida de empleos?",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "The thesis on trial: each industry's AI-exposure score (AIIE) against its employment change, with a fitted line. A downward slope is the displacement signature, but watch the R-squared: exposure is potential, not adoption. Recomputes with the dates.",
+    "spanish": "La tesis a prueba: el puntaje de exposición a la IA (AIIE) de cada industria frente a su cambio en el empleo, con una línea ajustada. Una pendiente descendente es la firma del desplazamiento, pero observe la R-cuadrada: la exposición es potencial, no adopción. Se recalcula con las fechas.",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Information versus a control, around ChatGPT",
+    "spanish": "Información frente a un grupo de control, en torno a ChatGPT",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Information employment and a control (total private excluding Information), each indexed to 100 at the ChatGPT launch. If the lines track before the anchor and split after, that supports an AI break; pre-existing divergence would point to the tech-hiring unwind and rate hikes instead.",
+    "spanish": "El empleo en Información y un grupo de control (total del sector privado excluyendo Información), cada uno indexado a 100 en el lanzamiento de ChatGPT. Si las líneas se mueven juntas antes del punto de anclaje y se separan después, eso respalda una ruptura por IA; una divergencia preexistente apuntaría, en cambio, a la corrección de la contratación tecnológica y a las alzas de tasas.",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Hiring freeze, or active cuts?",
+    "spanish": "¿Congelamiento de contrataciones o recortes activos?",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Each JOLTS industry by its change in job openings (horizontal) against its change in layoffs (vertical). Bottom-left is a quiet freeze; top-left is active cutting. Information sits high-left: openings gone and layoffs up. Recomputes with the dates.",
+    "spanish": "Cada industria de JOLTS según su cambio en vacantes (horizontal) frente a su cambio en despidos (vertical). El cuadrante inferior izquierdo es un congelamiento silencioso; el superior izquierdo es un recorte activo. Información se ubica arriba a la izquierda: vacantes desaparecidas y despidos al alza. Se recalcula con las fechas.",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "A decade of industry change, and its breadth",
+    "spanish": "Una década de cambio en las industrias, y su amplitud",
+    "uncertain": true,
+    "note": "'breadth' rendered as 'amplitud' (consistent with the diffusion/breadth concept below); reviewer may prefer 'difusión' to match 'breadth gauge' = 'indicador de difusión'."
+  },
+  {
+    "english": "Top: year-over-year employment change by industry, years as rows and industries as narrow columns (clay = shrinking, teal = growing); the information columns redden after 2022. Bottom: the share of industries growing, a breadth gauge. Payrolls can rise while breadth narrows.",
+    "spanish": "Arriba: el cambio interanual del empleo por industria, con los años como filas y las industrias como columnas estrechas (arcilla = en contracción, verde azulado = en crecimiento); las columnas de Información se enrojecen después de 2022. Abajo: la proporción de industrias en crecimiento, un indicador de amplitud. La nómina puede crecer mientras la amplitud se estrecha.",
+    "uncertain": true,
+    "note": "'breadth gauge' rendered as 'indicador de amplitud'; closely related to 'índice de difusión'. 'teal' = 'verde azulado'. Reviewer should confirm color-label and breadth/diffusion terminology."
+  },
+  {
+    "english": "How unevenly slack is spread across states",
+    "spanish": "Cuán desigualmente se distribuye la holgura del mercado laboral entre los estados",
+    "uncertain": true,
+    "note": "'slack' (labor-market slack) rendered as 'holgura del mercado laboral'; alternatives include 'capacidad ociosa' or just 'holgura'. Flagged for reviewer."
+  },
+  {
+    "english": "The middle bands hold the central 50% and 80% of states; the clay line is labor-force-weighted dispersion. A widening spread means states are diverging, which is what a geographically concentrated (tech-led) shock would produce.",
+    "spanish": "Las bandas centrales contienen el 50% y el 80% centrales de los estados; la línea de color arcilla es la dispersión ponderada por la fuerza laboral. Una dispersión que se amplía significa que los estados divergen, que es lo que produciría un choque concentrado geográficamente (liderado por el sector tecnológico).",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Every state, by unemployment change and tech intensity (beeswarm)",
+    "spanish": "Cada estado, según el cambio en el desempleo y la intensidad tecnológica (gráfico de enjambre)",
+    "uncertain": true,
+    "note": "'beeswarm' kept as 'gráfico de enjambre' for consistency; the English term is often left untranslated. Reviewer to confirm preferred convention across all chart titles."
+  },
+  {
+    "english": "One dot per state, packed by its change in unemployment, colored by its tech-employment share (Information plus professional services). If AI were the driver, the clay (tech-heavy) states would cluster on the right. They lean that way, but only weakly. Recomputes with the dates.",
+    "spanish": "Un punto por estado, agrupado según su cambio en el desempleo, coloreado por su participación de empleo tecnológico (Información más servicios profesionales). Si la IA fuera el factor determinante, los estados en color arcilla (con alta carga tecnológica) se agruparían a la derecha. Tienden en esa dirección, pero solo débilmente. Se recalcula con las fechas.",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "The education shield, tested",
+    "spanish": "El escudo de la educación, puesto a prueba",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "The high-school-minus-bachelor's unemployment gap. Generative AI uniquely targets cognitive, degreed work, so a narrowing gap is the fingerprint to watch. It narrowed, but graduates still hold the lower rate, counter-evidence worth stating.",
+    "spanish": "La brecha de desempleo entre quienes tienen bachillerato y quienes tienen licenciatura. La IA generativa incide de manera singular en el trabajo cognitivo y con titulación, por lo que el estrechamiento de la brecha es la huella a vigilar. Se estrechó, pero los titulados mantienen aún la tasa más baja: una contraevidencia que conviene señalar.",
+    "uncertain": true,
+    "note": "\"high school\" = bachillerato (MX); \"bachelor's\" = licenciatura (MX). Reviewer should confirm education-level register for target audience."
+  },
+  {
+    "english": "The Beveridge curve: a round trip to balance",
+    "spanish": "La curva de Beveridge: un viaje de ida y vuelta al equilibrio",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Job-openings rate against unemployment, traced through time (color = year). The loop up and left in 2021 to 2022 was an overheated market; the return toward the origin is the normalization. This is macro context, not an AI-specific signal.",
+    "spanish": "Tasa de vacantes frente al desempleo, trazada a lo largo del tiempo (color = año). El bucle hacia arriba y a la izquierda entre 2021 y 2022 reflejó un mercado sobrecalentado; el retorno hacia el origen es la normalización. Esto es contexto macroeconómico, no una señal específica de la IA.",
+    "uncertain": true,
+    "note": "\"job-openings rate\" rendered as \"tasa de vacantes\"; \"openings\" vs \"vacantes\" is a competing convention worth verifying."
+  },
+  {
+    "english": "The stakes: exposed occupations today",
+    "spanish": "Lo que está en juego: las ocupaciones expuestas hoy",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "A 2025 snapshot (no time trend): each occupation by employment and LLM exposure, sized by headcount. It maps where exposed workers are, not whether they have been displaced. Exposure does not equal displacement.",
+    "spanish": "Una instantánea de 2025 (sin tendencia temporal): cada ocupación según su empleo y su exposición a los LLM, dimensionada por el número de trabajadores. Cartografía dónde están los trabajadores expuestos, no si han sido desplazados. Exposición no equivale a desplazamiento.",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Findings",
+    "spanish": "Hallazgos",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Where jobs went",
+    "spanish": "Adónde fueron los empleos",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Swarm",
+    "spanish": "Enjambre",
+    "uncertain": true,
+    "note": "Chart-type label (\"swarm plot\"). Often left in English in data viz; \"Enjambre\" is the literal term. Reviewer may prefer keeping \"Swarm\"."
+  },
+  {
+    "english": "Histogram",
+    "spanish": "Histograma",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Exposure test",
+    "spanish": "Prueba de exposición",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Event study",
+    "spanish": "Estudio de eventos",
+    "uncertain": true,
+    "note": "Econometric term; \"estudio de eventos\" is standard, but some use \"estudio de sucesos\". Reviewer to confirm house style."
+  },
+  {
+    "english": "Freeze vs cuts",
+    "spanish": "Congelamiento vs. recortes",
+    "uncertain": true,
+    "note": "\"Freeze\" = hiring freeze; rendered as \"congelamiento\" (de contrataciones). Could also be \"congelación\". Reviewer to confirm given tight UI label."
+  },
+  {
+    "english": "Breadth",
+    "spanish": "Amplitud",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "State spread",
+    "spanish": "Dispersión por estado",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "State swarm",
+    "spanish": "Enjambre por estado",
+    "uncertain": true,
+    "note": "Same \"swarm\" chart-label issue; may be kept in English for consistency with the viz library."
+  },
+  {
+    "english": "Education",
+    "spanish": "Educación",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Beveridge",
+    "spanish": "Beveridge",
+    "uncertain": false,
+    "note": "Proper noun, kept as-is."
+  },
+  {
+    "english": "Stakes",
+    "spanish": "En juego",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Has AI taken a toll on jobs? An interactive view",
+    "spanish": "¿Ha pasado factura la IA al empleo? Una visión interactiva",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "US labor market, an interactive BLS data view",
+    "spanish": "El mercado laboral de EE. UU.: una visión interactiva de los datos del BLS",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Has AI taken a toll on jobs?",
+    "spanish": "¿Ha pasado factura la IA al empleo?",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Nine hundred BLS series, explorable. Pick any two dates and the decompositions, distributions, and relationships below all recompute. Data through {asof}.",
+    "spanish": "Novecientas series del BLS, explorables. Elija dos fechas cualesquiera y las descomposiciones, distribuciones y relaciones que aparecen abajo se recalculan en su totalidad. Datos hasta {asof}.",
+    "uncertain": false,
+    "note": "Format token {asof} preserved verbatim."
+  },
+  {
+    "english": "Compare",
+    "spanish": "Comparar",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "from",
+    "spanish": "de",
+    "uncertain": true,
+    "note": "Date-range UI label \"from … to\". Rendered \"de … a\"; \"desde\" is also valid. Reviewer to confirm pairing with \"to\"."
+  },
+  {
+    "english": "to",
+    "spanish": "a",
+    "uncertain": true,
+    "note": "Pairs with \"from\" (\"de … a\"); could be \"hasta\" if \"from\" = \"desde\". Reviewer to confirm consistency."
+  },
+  {
+    "english": "vs 2019",
+    "spanish": "vs. 2019",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "vs ChatGPT",
+    "spanish": "vs. ChatGPT",
+    "uncertain": false,
+    "note": "Proper noun kept as-is."
+  },
+  {
+    "english": "vs GPT-4",
+    "spanish": "vs. GPT-4",
+    "uncertain": false,
+    "note": "Proper noun/series code kept as-is."
+  },
+  {
+    "english": "Read with care.",
+    "spanish": "Léase con cautela.",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "These exhibits show correlation and timing, not causation. The 2022 to 2023 window also holds the post-pandemic tech-hiring unwind and the Fed's rate-hike cycle, both of which move these series. Treat the patterns as hypotheses to test.",
+    "spanish": "Estos gráficos muestran correlación y coincidencia temporal, no causalidad. La ventana de 2022 a 2023 abarca también el desinflado de la contratación tecnológica posterior a la pandemia y el ciclo de alzas de tasas de la Fed, factores que ambos mueven estas series. Trate los patrones como hipótesis por contrastar.",
+    "uncertain": false,
+    "note": "\"Fed\" kept as-is."
+  },
+  {
+    "english": "Sources.",
+    "spanish": "Fuentes.",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Bureau of Labor Statistics (CPS, LAUS, CES, JOLTS, OEWS). AI-exposure: (2023), GPTs are GPTs; , AI Occupational and Industry Exposure. As of {asof}.",
+    "spanish": "Bureau of Labor Statistics (CPS, LAUS, CES, JOLTS, OEWS). Exposición a la IA: (2023), GPTs are GPTs; , AI Occupational and Industry Exposure. Al {asof}.",
+    "uncertain": true,
+    "note": "Kept agency name, acronyms, and English paper titles as-is per rules; {asof} preserved. Reviewer to confirm leaving \"Bureau of Labor Statistics\" untranslated vs. glossing as BLS."
+  },
+  {
+    "english": "Net change",
+    "spanish": "Cambio neto",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "k",
+    "spanish": "k",
+    "uncertain": true,
+    "note": "Thousands abbreviation (axis unit). Kept as-is; Spanish data viz sometimes uses \"mil\". Reviewer to confirm against axis convention."
+  },
+  {
+    "english": "Contribution to net job change (000s)",
+    "spanish": "Contribución al cambio neto del empleo (en miles)",
+    "uncertain": false,
+    "note": "\"(000s)\" rendered as \"(en miles)\" for readability."
+  },
+  {
+    "english": "change",
+    "spanish": "cambio",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "AI exposure",
+    "spanish": "Exposición a la IA",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "AI exp",
+    "spanish": "Expos. IA",
+    "uncertain": true,
+    "note": "Abbreviated axis/legend label for \"AI exposure\". Truncated form; reviewer to confirm it fits the UI and reads clearly."
+  },
+  {
+    "english": "Employment change (%),",
+    "spanish": "Cambio del empleo (%),",
+    "uncertain": false,
+    "note": "Trailing comma and (%) unit preserved verbatim."
+  },
+  {
+    "english": "industries",
+    "spanish": "industrias",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "UR change",
+    "spanish": "Cambio en la tasa de desempleo",
+    "uncertain": false,
+    "note": "UR = unemployment rate; axis/hover label"
+  },
+  {
+    "english": "pp",
+    "spanish": "pp",
+    "uncertain": false,
+    "note": "puntos porcentuales; abbreviation kept as-is, standard in ES"
+  },
+  {
+    "english": "tech share",
+    "spanish": "Participación tecnológica",
+    "uncertain": true,
+    "note": "Share of tech-sector employment used as color scale; could also be 'Peso del sector tecnológico' — reviewer to confirm phrasing"
+  },
+  {
+    "english": "tech %",
+    "spanish": "% tecnología",
+    "uncertain": false,
+    "note": "colorbar title, short form of tech share"
+  },
+  {
+    "english": "Change in unemployment rate (pp)",
+    "spanish": "Cambio en la tasa de desempleo (pp)",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "slope",
+    "spanish": "pendiente",
+    "uncertain": false,
+    "note": "OLS regression slope"
+  },
+  {
+    "english": "pp per exposure unit, R²",
+    "spanish": "pp por unidad de exposición, R²",
+    "uncertain": false,
+    "note": "R² kept verbatim; units preserved"
+  },
+  {
+    "english": "(weak)",
+    "spanish": "(débil)",
+    "uncertain": false,
+    "note": "qualifies a weak statistical relationship/fit"
+  },
+  {
+    "english": "AI industry exposure (AIIE)",
+    "spanish": "Exposición de la industria a la IA (AIIE)",
+    "uncertain": false,
+    "note": "Acronym AIIE kept as-is; IA = inteligencia artificial"
+  },
+  {
+    "english": "Employment change (%)",
+    "spanish": "Cambio del empleo (%)",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "openings",
+    "spanish": "vacantes",
+    "uncertain": true,
+    "note": "JOLTS job openings; standard ES is 'vacantes', but 'job openings' vs 'vacancies' convention — reviewer to confirm consistency with Beveridge-curve usage"
+  },
+  {
+    "english": "layoffs",
+    "spanish": "despidos",
+    "uncertain": false,
+    "note": "JOLTS layoffs and discharges"
+  },
+  {
+    "english": "Job-openings change (%)",
+    "spanish": "Cambio en las vacantes (%)",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Layoffs change (%)",
+    "spanish": "Cambio en los despidos (%)",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "active cuts",
+    "spanish": "recortes activos",
+    "uncertain": true,
+    "note": "JOLTS quadrant label (openings down + layoffs up = actively firing); contrasts with 'quiet freeze'; reviewer may prefer 'despidos activos'"
+  },
+  {
+    "english": "quiet freeze",
+    "spanish": "congelamiento silencioso",
+    "uncertain": true,
+    "note": "JOLTS quadrant label = hiring freeze without firing; could be 'congelación de contrataciones' — reviewer to confirm the short label reads well opposite 'recortes activos'"
+  },
+  {
+    "english": "Information payrolls",
+    "spanish": "Empleo del sector Información",
+    "uncertain": true,
+    "note": "'Information' = CES Information supersector (NAICS 51); 'payrolls' = nómina/empleo no agrícola. Could be 'Nómina del sector Información' — reviewer to confirm"
+  },
+  {
+    "english": "PDF",
+    "spanish": "PDF",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Open the browser print dialog; choose Save as PDF",
+    "spanish": "Abre el cuadro de diálogo de impresión del navegador; elige Guardar como PDF",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "BLS API key (optional; uses .env default)",
+    "spanish": "Clave de API de BLS (opcional; usa el valor predeterminado de .env)",
+    "uncertain": false,
+    "note": ".env kept verbatim"
+  },
+  {
+    "english": "Re-fetch the latest data from the BLS API",
+    "spanish": "Vuelve a obtener los datos más recientes de la API de BLS",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Refresh from BLS",
+    "spanish": "Actualizar desde BLS",
+    "uncertain": false,
+    "note": "toolbar button"
+  },
+  {
+    "english": "Download every chart's data, one sheet per chart",
+    "spanish": "Descarga los datos de cada gráfico, una hoja por gráfico",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Data (Excel)",
+    "spanish": "Datos (Excel)",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "AI & US jobs",
+    "spanish": "La IA y el empleo en EE. UU.",
+    "uncertain": false,
+    "note": "title; EE. UU. is standard ES-MX abbreviation for United States"
+  },
+  {
+    "english": "Fetching the latest data from BLS…",
+    "spanish": "Obteniendo los datos más recientes de BLS…",
+    "uncertain": false,
+    "note": "ellipsis character preserved"
+  },
+  {
+    "english": "This can take up to a minute. The page will reload when done.",
+    "spanish": "Esto puede tardar hasta un minuto. La página se recargará al terminar.",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Refresh failed.",
+    "spanish": "La actualización falló.",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Refresh needs the local app. Run:  python app.py  then open http://127.0.0.1:8765",
+    "spanish": "La actualización requiere la aplicación local. Ejecuta:  python app.py  y luego abre http://127.0.0.1:8765",
+    "uncertain": false,
+    "note": "command, double spaces, and URL preserved verbatim"
+  },
+  {
+    "english": "Open via the local app (python app.py) to refresh from BLS.",
+    "spanish": "Ábrelo mediante la aplicación local (python app.py) para actualizar desde BLS.",
+    "uncertain": false,
+    "note": "command preserved verbatim"
+  },
+  {
+    "english": "Data was refreshed",
+    "spanish": "Los datos se actualizaron",
+    "uncertain": false,
+    "note": "precedes 'h ago' fragment in following string"
+  },
+  {
+    "english": "h ago. BLS updates these series monthly, so refreshing now will usually return the same numbers and just spends API quota. Refresh anyway?",
+    "spanish": "h. BLS actualiza estas series mensualmente, por lo que actualizar ahora normalmente devolverá los mismos números y solo consume cuota de la API. ¿Actualizar de todos modos?",
+    "uncertain": false,
+    "note": "'h ago' rendered as 'hace … h'; this fragment follows a number — kept 'h.' so it reads 'hace N h' with the preceding 'Los datos se actualizaron hace' string; reviewer to confirm concatenation order"
+  },
+  {
+    "english": "Open via the local app (python app.py) to export the Excel workbook.",
+    "spanish": "Ábrelo mediante la aplicación local (python app.py) para exportar el libro de Excel.",
+    "uncertain": false,
+    "note": "command preserved verbatim"
+  },
+  {
+    "english": "ChatGPT (Nov 2022)",
+    "spanish": "ChatGPT (nov. 2022)",
+    "uncertain": false,
+    "note": "ChatGPT kept as-is; month abbreviated per ES convention"
+  },
+  {
+    "english": "U-3",
+    "spanish": "U-3",
+    "uncertain": false,
+    "note": "BLS unemployment measure code, kept as-is"
+  },
+  {
+    "english": "Less than high school",
+    "spanish": "Menos que preparatoria",
+    "uncertain": true,
+    "note": "CPS educational-attainment category. ES-MX uses 'preparatoria' for high school; alternatives 'educación media superior' / 'bachillerato' — reviewer to confirm register for general audience"
+  },
+  {
+    "english": "High school, no college",
+    "spanish": "Preparatoria, sin universidad",
+    "uncertain": true,
+    "note": "'college' rendered as 'universidad'; reviewer to confirm consistency with chosen 'preparatoria' term"
+  },
+  {
+    "english": "Some college / associate",
+    "spanish": "Universidad incompleta / técnico superior",
+    "uncertain": true,
+    "note": "'associate degree' has no exact ES-MX equivalent; 'técnico superior universitario (TSU)' is the closest. Reviewer to confirm"
+  },
+  {
+    "english": "Bachelor's and higher",
+    "spanish": "Licenciatura o más",
+    "uncertain": false,
+    "note": "bachelor's = licenciatura in ES-MX"
+  },
+  {
+    "english": "Index, Nov 2022 = 100",
+    "spanish": "Índice, nov 2022 = 100",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Openings (total nonfarm)",
+    "spanish": "Vacantes (empleo no agrícola total)",
+    "uncertain": true,
+    "note": "JOLTS 'job openings': convención más común 'Vacantes'; algunos prefieren 'Plazas vacantes'."
+  },
+  {
+    "english": "Openings",
+    "spanish": "Vacantes",
+    "uncertain": true,
+    "note": "'Openings' = 'Vacantes' (JOLTS); revisar consistencia con 'Job openings' si aparece en otro lado."
+  },
+  {
+    "english": "Hires (total nonfarm)",
+    "spanish": "Contrataciones (empleo no agrícola total)",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Hires",
+    "spanish": "Contrataciones",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Openings (Information)",
+    "spanish": "Vacantes (Información)",
+    "uncertain": false,
+    "note": "'Information' es el sector NAICS; se mantiene como nombre del sector."
+  },
+  {
+    "english": "Info openings",
+    "spanish": "Vacantes en Información",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Total nonfarm (000s)",
+    "spanish": "Empleo no agrícola total (miles)",
+    "uncertain": false,
+    "note": "'(000s)' = miles."
+  },
+  {
+    "english": "Information (000s)",
+    "spanish": "Información (miles)",
+    "uncertain": false,
+    "note": "Sector NAICS Información; '(000s)' = miles."
+  },
+  {
+    "english": "UR %",
+    "spanish": "Tasa de desempleo %",
+    "uncertain": false,
+    "note": "UR = unemployment rate."
+  },
+  {
+    "english": "Unemployed per opening",
+    "spanish": "Desempleados por vacante",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "balance (1.0)",
+    "spanish": "equilibrio (1.0)",
+    "uncertain": true,
+    "note": "En contexto de razón desempleados/vacante, 'balance=1.0' suele glosarse como 'equilibrio'; si se quiere literal, 'balance (1.0)'."
+  },
+  {
+    "english": "% change since Nov 2022",
+    "spanish": "% de cambio desde nov 2022",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "High school",
+    "spanish": "Bachillerato",
+    "uncertain": true,
+    "note": "Nivel educativo CPS 'high school'; en MX equivale a 'Bachillerato'/'Preparatoria'; reseñas comparativas a veces dejan 'High school'."
+  },
+  {
+    "english": "Share of employment",
+    "spanish": "Participación en el empleo",
+    "uncertain": false,
+    "note": "Proporción del empleo total."
+  },
+  {
+    "english": "LLM exp",
+    "spanish": "Exp. LLM",
+    "uncertain": true,
+    "note": "Abreviatura de 'LLM exposure'; se mantuvo corta para etiqueta de eje/leyenda. Revisar si se prefiere 'Exposición LLM'."
+  },
+  {
+    "english": "employment",
+    "spanish": "empleo",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "LLM exposure (beta)",
+    "spanish": "Exposición a LLM (beta)",
+    "uncertain": false,
+    "note": "'beta' es el coeficiente; se deja como término estadístico."
+  },
+  {
+    "english": "Employment (log scale)",
+    "spanish": "Empleo (escala logarítmica)",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "LLM exposure (GPTs beta)",
+    "spanish": "Exposición a LLM (beta GPTs)",
+    "uncertain": true,
+    "note": "'GPTs' alude al índice de exposición de Eloundou et al. (GPTs are GPTs); 'beta' = coeficiente. Se conservan 'GPTs' y 'beta' como en el paper."
+  },
+  {
+    "english": "YoY %",
+    "spanish": "% anual",
+    "uncertain": true,
+    "note": "YoY = year-over-year; 'variación anual'/'% interanual' también válidos. 'anual' es el uso más común en MX."
+  },
+  {
+    "english": "Statewide unemployment rate",
+    "spanish": "Tasa de desempleo estatal",
+    "uncertain": false,
+    "note": "LAUS, a nivel estado."
+  },
+  {
+    "english": "Year:",
+    "spanish": "Año:",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Play",
+    "spanish": "Reproducir",
+    "uncertain": false,
+    "note": "Control de animación."
+  },
+  {
+    "english": "Pause",
+    "spanish": "Pausar",
+    "uncertain": false,
+    "note": "Control de animación."
+  },
+  {
+    "english": "Control (total private ex-Info)",
+    "spanish": "Control (privado total excl. Información)",
+    "uncertain": true,
+    "note": "Grupo de control en diseño tipo diff-in-diff; 'ex-Info' = excluyendo el sector Información. Revisar si se prefiere 'sin Información'."
+  },
+  {
+    "english": "Control",
+    "spanish": "Control",
+    "uncertain": false,
+    "note": "Grupo de control."
+  },
+  {
+    "english": "Information (treated)",
+    "spanish": "Información (tratado)",
+    "uncertain": false,
+    "note": "Grupo tratado en el diseño causal; 'Information' es el sector NAICS."
+  },
+  {
+    "english": "Information",
+    "spanish": "Información",
+    "uncertain": false,
+    "note": "Sector NAICS."
+  },
+  {
+    "english": "ChatGPT",
+    "spanish": "ChatGPT",
+    "uncertain": false,
+    "note": "Nombre propio; se mantiene."
+  },
+  {
+    "english": "Employment, anchor = 100",
+    "spanish": "Empleo, base = 100",
+    "uncertain": true,
+    "note": "'anchor = 100' como punto de referencia indexado; 'base = 100' es la convención de números índice en español. Alternativa: 'ancla = 100'."
+  },
+  {
+    "english": "Year",
+    "spanish": "Año",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "UR",
+    "spanish": "Tasa de desempleo",
+    "uncertain": false,
+    "note": "UR = unemployment rate."
+  },
+  {
+    "english": "GPT-4",
+    "spanish": "GPT-4",
+    "uncertain": false,
+    "note": "Nombre propio; se mantiene."
+  },
+  {
+    "english": "Job-openings rate",
+    "spanish": "Tasa de vacantes",
+    "uncertain": true,
+    "note": "JOLTS 'job openings rate'; 'Tasa de vacantes' es lo estándar. Algunos usan 'Tasa de plazas vacantes'."
+  },
+  {
+    "english": "p10-p90 of states",
+    "spanish": "p10-p90 de los estados",
+    "uncertain": false,
+    "note": "Rango percentil 10-90 entre estados."
+  },
+  {
+    "english": "p25-p75",
+    "spanish": "p25-p75",
+    "uncertain": false,
+    "note": "Rango intercuartílico; notación percentil se mantiene."
+  },
+  {
+    "english": "Median state",
+    "spanish": "Estado mediano",
+    "uncertain": false,
+    "note": "Estado en la mediana de la distribución."
+  },
+  {
+    "english": "Dispersion (LF-wtd std)",
+    "spanish": "Dispersión (desv. est. ponderada por fuerza laboral)",
+    "uncertain": true,
+    "note": "LF-wtd = labor-force-weighted; std = desviación estándar. Etiqueta larga; podría abreviarse 'desv. est. pond. por PEA'."
+  },
+  {
+    "english": "std",
+    "spanish": "desv. est.",
+    "uncertain": true,
+    "note": "std = desviación estándar; abreviatura común 'desv. est.' o 'σ'."
+  },
+  {
+    "english": "State unemployment rate",
+    "spanish": "Tasa de desempleo estatal",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Dispersion (pp)",
+    "spanish": "Dispersión (pp)",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "HS minus bachelor's UR gap",
+    "spanish": "Brecha de tasa de desempleo: bachillerato menos licenciatura",
+    "uncertain": true,
+    "note": "'HS' = high school -> 'bachillerato' (MX); 'bachelor's' = 'licenciatura' (MX). UR = unemployment rate. Reviewer should confirm education-level labels fit the dashboard's space and intended levels."
+  },
+  {
+    "english": "Unemployment-rate gap (pp)",
+    "spanish": "Brecha de la tasa de desempleo (pp)",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "% industries growing",
+    "spanish": "% de industrias en expansión",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "breadth-neutral",
+    "spanish": "amplitud neutral",
+    "uncertain": true,
+    "note": "'breadth' here is the diffusion/breadth concept (share of industries expanding vs. contracting); 'amplitud neutral' marks the 50% threshold. Reviewer may prefer 'difusión neutral' or 'neutral' depending on chart context."
+  },
+  {
+    "english": "Share of industries growing",
+    "spanish": "Proporción de industrias en expansión",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "AI-exposed",
+    "spanish": "Expuestas a la IA",
+    "uncertain": true,
+    "note": "AI = IA (inteligencia artificial). Gender/number ('expuestas') assumes it modifies 'industrias'; confirm the antecedent in the chart legend."
+  },
+  {
+    "english": "Other",
+    "spanish": "Otras",
+    "uncertain": true,
+    "note": "Rendered as feminine plural assuming it groups 'industrias'. Use 'Otros' if it labels a masculine/neutral category."
+  },
+  {
+    "english": "12-month employment change (%)",
+    "spanish": "Variación del empleo a 12 meses (%)",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Density",
+    "spanish": "Densidad",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Mining & logging",
+    "spanish": "Minería y tala",
+    "uncertain": true,
+    "note": "BLS supersector 'Mining and logging'. 'Tala' renders 'logging'; some sources use 'explotación forestal'. Reviewer to confirm preferred register."
+  },
+  {
+    "english": "Construction",
+    "spanish": "Construcción",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Durable goods mfg",
+    "spanish": "Manufactura de bienes duraderos",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Nondurable goods mfg",
+    "spanish": "Manufactura de bienes no duraderos",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Wholesale trade",
+    "spanish": "Comercio al por mayor",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Retail trade",
+    "spanish": "Comercio al por menor",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Transportation & warehousing",
+    "spanish": "Transporte y almacenamiento",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Utilities",
+    "spanish": "Servicios públicos",
+    "uncertain": true,
+    "note": "BLS 'Utilities' = electricity/gas/water services -> 'Servicios públicos' (or 'Servicios de suministro'). Reviewer may prefer 'Servicios básicos' to avoid confusion with public-sector services."
+  },
+  {
+    "english": "Financial activities",
+    "spanish": "Actividades financieras",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Professional & business svcs",
+    "spanish": "Servicios profesionales y empresariales",
+    "uncertain": false,
+    "note": "Abbreviated form of the supersector; matches full version below."
+  },
+  {
+    "english": "Education & health svcs",
+    "spanish": "Servicios educativos y de salud",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Leisure & hospitality",
+    "spanish": "Esparcimiento y hospitalidad",
+    "uncertain": true,
+    "note": "BLS 'Leisure and hospitality'. Common renderings: 'Esparcimiento y hospitalidad' or 'Ocio y hostelería' (more Iberian). Reviewer to confirm MX preference."
+  },
+  {
+    "english": "Other services",
+    "spanish": "Otros servicios",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Government",
+    "spanish": "Gobierno",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Software publishers",
+    "spanish": "Editoras de software",
+    "uncertain": true,
+    "note": "NAICS 'Software publishers' -> 'Editoras/Editores de software'. INEGI/NAICS-MX uses 'Editoras de software'; reviewer to confirm gender convention."
+  },
+  {
+    "english": "Data processing & hosting",
+    "spanish": "Procesamiento de datos y hospedaje",
+    "uncertain": false,
+    "note": "NAICS 'Data processing, hosting, and related services'; 'hospedaje' = hosting."
+  },
+  {
+    "english": "Computer systems design",
+    "spanish": "Diseño de sistemas informáticos",
+    "uncertain": false,
+    "note": "NAICS 'Computer systems design and related services'."
+  },
+  {
+    "english": "Telecommunications",
+    "spanish": "Telecomunicaciones",
+    "uncertain": false,
+    "note": ""
+  },
+  {
+    "english": "Motion picture & sound",
+    "spanish": "Cine y grabación de sonido",
+    "uncertain": true,
+    "note": "NAICS 'Motion picture and sound recording industries'. Rendered concisely; reviewer may prefer 'Industria del cine y la grabación de sonido'."
+  },
+  {
+    "english": "Broadcasting & content",
+    "spanish": "Radiodifusión y contenidos",
+    "uncertain": true,
+    "note": "Covers broadcasting plus content providers. 'Radiodifusión' is radio/TV broadcasting; reviewer to confirm whether 'contenidos' adequately captures the NAICS content-providers grouping."
+  },
+  {
+    "english": "Web search & other info",
+    "spanish": "Búsqueda web y otros servicios de información",
+    "uncertain": true,
+    "note": "NAICS 'Web search portals and other information services'. Reviewer to confirm chart-space fit of the expanded 'servicios de información'."
+  },
+  {
+    "english": "Total nonfarm",
+    "spanish": "Empleo no agrícola total",
+    "uncertain": false,
+    "note": "CES 'Total nonfarm employment' = empleo no agrícola total."
+  },
+  {
+    "english": "Professional & business services",
+    "spanish": "Servicios profesionales y empresariales",
+    "uncertain": false,
+    "note": "Full form; consistent with abbreviated 'Professional & business svcs' above."
+  }
+]
