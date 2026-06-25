@@ -19,11 +19,12 @@ GPT4 = pd.Timestamp("2023-03-31")
 def fig_industry_heatmap(matrix: dict, lang: str = "es") -> go.Figure:
     """Horizontal heatmap of YoY % employment change: industries (narrow columns) x year (rows)."""
     industries = matrix["industries"]
+    industries_disp = [t(name, lang) for name in industries]
     years = [str(y) for y in matrix["years"]]
     z = matrix["z"]  # [industry][year]
     zt = [[z[i][j] for i in range(len(industries))] for j in range(len(years))]  # [year][industry]
     fig = go.Figure(go.Heatmap(
-        z=zt, x=industries, y=years, colorscale=_DIVERGING, zmid=0, zmin=-10, zmax=10,
+        z=zt, x=industries_disp, y=years, colorscale=_DIVERGING, zmid=0, zmin=-10, zmax=10,
         xgap=1, ygap=2,
         colorbar=dict(title=t("YoY %", lang), thickness=12, len=0.7, outlinewidth=0),
         hovertemplate="%{x}<br>%{y}: %{z:+.1f}%<extra></extra>"))

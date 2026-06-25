@@ -144,7 +144,13 @@ def build_interactive(cache_dir: Path = Path("data/cache"),
     meta = read_dataset("series_meta", cache_dir)
     occ_exp = read_dataset("exposure_occupation", cache_dir)
     exp_ind = read_dataset("exposure_industry", cache_dir)
-    asof = obs["date"].max().strftime("%B %Y")
+    _asof_dt = obs["date"].max()
+    if lang == "es":
+        _ES_MONTHS = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio",
+                      "agosto", "septiembre", "octubre", "noviembre", "diciembre"]
+        asof = f"{_ES_MONTHS[_asof_dt.month - 1]} de {_asof_dt.year}"
+    else:
+        asof = _asof_dt.strftime("%B %Y")
 
     # ---- embedded bundle for client-side recompute ----
     adv = advanced.advanced_bundle(obs, meta, exp_ind, lang=lang)
@@ -259,8 +265,17 @@ def build_interactive(cache_dir: Path = Path("data/cache"),
         ("dispersion", "State spread"), ("states", "State swarm"), ("education", "Education"),
         ("beveridge", "Beveridge"), ("occupations", "Stakes")])
 
+    _js_strings = ["Net change", "Contribution to net job change (000s)", "AI exp", "change",
+                   "AI exposure", "Employment change (%),", "industries", "tech %", "UR change",
+                   "pp", "tech share", "Change in unemployment rate (pp)", "slope",
+                   "pp per exposure unit, R²", "(weak)", "AI industry exposure (AIIE)",
+                   "Employment change (%)", "openings", "layoffs", "Job-openings change (%)",
+                   "Layoffs change (%)", "active cuts", "quiet freeze", "Information payrolls",
+                   "from", "to", "n/a"]
+    tmap_json = json.dumps({s: t(s, lang) for s in _js_strings}, ensure_ascii=False)
     js = (_interactive_js().replace("__DATA__", data_json).replace("__MONTHS__", months_json)
-          .replace("__BASE__", base_default).replace("__COMPARE__", compare_default))
+          .replace("__BASE__", base_default).replace("__COMPARE__", compare_default)
+          .replace("__TMAP__", tmap_json).replace("__LANG__", json.dumps(lang)))
 
     toolbar_html = _toolbar_html(static, lang)
     overlay_html = _overlay_html(static, lang)
@@ -326,6 +341,8 @@ const MONTHS = __MONTHS__;
 const INK="#26272e", MUTED="#8a8d99", LINE="#e9e9ee", CLAY="#c2613a", SLATE="#5b6b8c", TEAL="#3a78b5";
 const FONT="Inter,'Segoe UI',system-ui,sans-serif";
 const CFG={displaylogo:false, responsive:true};
+const LANG=__LANG__;
+const T=__TMAP__;
 
 function lastOnOrBefore(dates, values, target){
   let v=null; for(let i=0;i<dates.length;i++){ if(dates[i]<=target && values[i]!=null) v=values[i]; } return v;
@@ -353,20 +370,20 @@ function beeswarmY(xs){ // symmetric column-packed offsets so dots don't overlap
 }
 
 function drawWaterfall(B,C){
-  const rows=DATA.industries.filter(d=>d.leaf).map(d=>({label:d.label, v:lvl(d,B,C)})).filter(r=>r.v!=null)
+  const rows=DATA.industries.filter(d=>d.leaf).map(d=>({label:d.tlabel, v:lvl(d,B,C)})).filter(r=>r.v!=null)
     .sort((a,b)=>b.v-a.v);
   const net=rows.reduce((a,r)=>a+r.v,0);
-  const x=rows.map(r=>r.v).concat([net]); const y=rows.map(r=>r.label).concat(["Net change"]);
+  const x=rows.map(r=>r.v).concat([net]); const y=rows.map(r=>r.label).concat([T["Net change"]]);
   const measure=rows.map(()=>"relative").concat(["total"]);
   Plotly.react("c-waterfall",[{type:"waterfall",orientation:"h",measure:measure,x:x,y:y,
     decreasing:{marker:{color:CLAY}},increasing:{marker:{color:TEAL}},totals:{marker:{color:INK}},
     connector:{line:{color:LINE}},hovertemplate:"%{y}: %{x:+,.0f}k<extra></extra>"}],
-    tpl({height:Math.max(560,30*y.length+90),xaxis:{title:"Contribution to net job change (000s)",
+    tpl({height:Math.max(560,30*y.length+90),xaxis:{title:T["Contribution to net job change (000s)"],
       gridcolor:LINE,zeroline:true,zerolinecolor:MUTED},yaxis:{automargin:true,autorange:"reversed"}}),CFG);
 }
 function drawDistribution(B,C){
   const src=(DATA.detailed&&DATA.detailed.length)?DATA.detailed:DATA.industries.filter(d=>d.display);
-  const pts=src.map(d=>({label:d.label,x:chg(d,B,C),aiie:d.aiie,emp:d.values.slice(-1)[0]}))
+  const pts=src.map(d=>({label:d.tlabel,x:chg(d,B,C),aiie:d.aiie,emp:d.values.slice(-1)[0]}))
     .filter(p=>p.x!=null && p.x>-60 && p.x<80);
   const ys=beeswarmY(pts.map(p=>p.x));
   Plotly.react("c-dist",[
@@ -376,11 +393,11 @@ function drawDistribution(B,C){
       marker:{size:pts.map(p=>Math.max(6,Math.min(20,Math.sqrt(p.emp||1)/14))),
         opacity:0.82,line:{color:"#ffffff",width:0.5},
         color:pts.map(p=>p.aiie==null?0:p.aiie),colorscale:[[0,TEAL],[0.5,"#cfd6dd"],[1,CLAY]],cmin:-1,cmax:2,
-        showscale:true,colorbar:{title:"AI exp",thickness:11,len:0.5,outlinewidth:0}},
-      text:pts.map(p=>p.label),customdata:pts.map(p=>p.aiie==null?"n/a":p.aiie.toFixed(2)),
-      hovertemplate:"%{text}<br>change %{x:+.1f}%<br>AI exposure %{customdata}<extra></extra>",showlegend:false}],
+        showscale:true,colorbar:{title:T["AI exp"],thickness:11,len:0.5,outlinewidth:0}},
+      text:pts.map(p=>p.label),customdata:pts.map(p=>p.aiie==null?T["n/a"]:p.aiie.toFixed(2)),
+      hovertemplate:`%{text}<br>${T["change"]} %{x:+.1f}%<br>${T["AI exposure"]} %{customdata}<extra></extra>`,showlegend:false}],
     tpl({height:560,margin:{l:24,r:24,t:16,b:46},
-      xaxis:{title:"Employment change (%), "+pts.length+" industries",ticksuffix:"%",gridcolor:LINE,zeroline:true,zerolinecolor:MUTED},
+      xaxis:{title:T["Employment change (%),"]+" "+pts.length+" "+T["industries"],ticksuffix:"%",gridcolor:LINE,zeroline:true,zerolinecolor:MUTED},
       yaxis:{visible:false,range:[-1.15,1.15]}}),CFG);
 }
 function drawStatesSwarm(B,C){
@@ -390,10 +407,10 @@ function drawStatesSwarm(B,C){
     text:pts.map(p=>p.abbr),textposition:"top center",textfont:{size:9,color:MUTED},
     marker:{size:15,opacity:0.9,line:{color:"#ffffff",width:1},
       color:pts.map(p=>p.tech==null?0:p.tech),colorscale:[[0,"#5b6b8c"],[1,CLAY]],
-      cmin:0,cmax:22,showscale:true,colorbar:{title:"tech %",thickness:12,len:0.6,outlinewidth:0}},
-    customdata:pts.map(p=>p.tech==null?"n/a":p.tech.toFixed(1)),
-    hovertemplate:"%{text}<br>UR change %{x:+.1f} pp<br>tech share %{customdata}%<extra></extra>",showlegend:false}],
-    tpl({height:420,xaxis:{title:"Change in unemployment rate (pp)",ticksuffix:" pp",gridcolor:LINE,zeroline:true,zerolinecolor:MUTED},
+      cmin:0,cmax:22,showscale:true,colorbar:{title:T["tech %"],thickness:12,len:0.6,outlinewidth:0}},
+    customdata:pts.map(p=>p.tech==null?T["n/a"]:p.tech.toFixed(1)),
+    hovertemplate:`%{text}<br>${T["UR change"]} %{x:+.1f} ${T["pp"]}<br>${T["tech share"]} %{customdata}%<extra></extra>`,showlegend:false}],
+    tpl({height:420,xaxis:{title:T["Change in unemployment rate (pp)"],ticksuffix:" pp",gridcolor:LINE,zeroline:true,zerolinecolor:MUTED},
       yaxis:{visible:false,range:[-1.6,1.6]}}),CFG);
 }
 function ols(xs,ys){ const n=xs.length; if(n<2) return null; let sx=0,sy=0,sxx=0,sxy=0,syy=0;
@@ -401,44 +418,44 @@ function ols(xs,ys){ const n=xs.length; if(n<2) return null; let sx=0,sy=0,sxx=0
   const d=n*sxx-sx*sx; if(d===0) return null; const m=(n*sxy-sx*sy)/d, b=(sy-m*sx)/n;
   const r=(n*sxy-sx*sy)/Math.sqrt(Math.max(1e-9,(n*sxx-sx*sx)*(n*syy-sy*sy))); return {m,b,r2:r*r}; }
 function drawScatter(B,C){
-  const pts=DATA.industries.filter(d=>d.display&&d.aiie!=null).map(d=>({label:d.label,x:d.aiie,y:chg(d,B,C),emp:d.values.slice(-1)[0]}))
+  const pts=DATA.industries.filter(d=>d.display&&d.aiie!=null).map(d=>({label:d.tlabel,x:d.aiie,y:chg(d,B,C),emp:d.values.slice(-1)[0]}))
     .filter(p=>p.y!=null);
   const fit=ols(pts.map(p=>p.x),pts.map(p=>p.y));
   const traces=[{type:"scatter",mode:"markers+text",x:pts.map(p=>p.x),y:pts.map(p=>p.y),
     text:pts.map(p=>p.label),textposition:"top center",textfont:{size:9,color:MUTED},
     marker:{size:pts.map(p=>Math.max(9,Math.sqrt(p.emp||1)/12)),color:pts.map(p=>p.y<0?CLAY:TEAL),opacity:0.85,line:{color:"#ffffff",width:1}},
-    hovertemplate:"%{text}<br>AI exposure %{x:.2f}<br>change %{y:+.1f}%<extra></extra>",showlegend:false}];
+    hovertemplate:`%{text}<br>${T["AI exposure"]} %{x:.2f}<br>${T["change"]} %{y:+.1f}%<extra></extra>`,showlegend:false}];
   let ann=[];
   if(fit){ const xs=pts.map(p=>p.x); const xmin=Math.min(...xs),xmax=Math.max(...xs);
     traces.push({type:"scatter",mode:"lines",x:[xmin,xmax],y:[fit.m*xmin+fit.b,fit.m*xmax+fit.b],
       line:{color:INK,width:1.5,dash:"dash"},hoverinfo:"skip",showlegend:false});
     ann=[{xref:"paper",yref:"paper",x:0.98,y:0.04,xanchor:"right",showarrow:false,
-      text:`slope ${fit.m.toFixed(1)} pp per exposure unit, R&sup2; ${fit.r2.toFixed(2)} (weak)`,
+      text:`${T["slope"]} ${fit.m.toFixed(1)} ${T["pp per exposure unit, R²"]} ${fit.r2.toFixed(2)} ${T["(weak)"]}`,
       font:{color:MUTED,size:12}}]; }
   Plotly.react("c-scatter",traces,tpl({height:480,annotations:ann,
-    xaxis:{title:"AI industry exposure (AIIE)",gridcolor:LINE,zeroline:true,zerolinecolor:MUTED},
-    yaxis:{title:"Employment change (%)",ticksuffix:"%",gridcolor:LINE,zeroline:true,zerolinecolor:MUTED}}),CFG);
+    xaxis:{title:T["AI industry exposure (AIIE)"],gridcolor:LINE,zeroline:true,zerolinecolor:MUTED},
+    yaxis:{title:T["Employment change (%)"],ticksuffix:"%",gridcolor:LINE,zeroline:true,zerolinecolor:MUTED}}),CFG);
 }
 function drawFreeze(B,C){
-  const op={},ld={}; DATA.jolts.forEach(s=>{const m=s.element==="openings"?op:ld; m[s.code]={s:s,label:s.label};});
+  const op={},ld={}; DATA.jolts.forEach(s=>{const m=s.element==="openings"?op:ld; m[s.code]={s:s,label:s.tlabel};});
   const pts=[]; Object.keys(op).forEach(code=>{ if(!(code in ld)) return;
     const x=chg(op[code].s,B,C), y=chg(ld[code].s,B,C); if(x==null||y==null) return;
     pts.push({label:op[code].label,x:x,y:y,emp:op[code].s.values.slice(-1)[0]}); });
   Plotly.react("c-freeze",[{type:"scatter",mode:"markers+text",x:pts.map(p=>p.x),y:pts.map(p=>p.y),
     text:pts.map(p=>p.label),textposition:"top center",textfont:{size:10,color:INK},
     marker:{size:14,color:pts.map(p=>(p.x<0&&p.y>0)?CLAY:(p.x>0?TEAL:SLATE)),opacity:0.85,line:{color:"#ffffff",width:1}},
-    hovertemplate:"%{text}<br>openings %{x:+.0f}%<br>layoffs %{y:+.0f}%<extra></extra>",showlegend:false}],
-    tpl({height:480,xaxis:{title:"Job-openings change (%)",ticksuffix:"%",gridcolor:LINE,zeroline:true,zerolinecolor:MUTED},
-      yaxis:{title:"Layoffs change (%)",ticksuffix:"%",gridcolor:LINE,zeroline:true,zerolinecolor:MUTED},
-      annotations:[{x:0.02,y:0.98,xref:"paper",yref:"paper",text:"active cuts",showarrow:false,font:{color:CLAY,size:11}},
-        {x:0.02,y:0.02,xref:"paper",yref:"paper",text:"quiet freeze",showarrow:false,font:{color:MUTED,size:11}}]}),CFG);
+    hovertemplate:`%{text}<br>${T["openings"]} %{x:+.0f}%<br>${T["layoffs"]} %{y:+.0f}%<extra></extra>`,showlegend:false}],
+    tpl({height:480,xaxis:{title:T["Job-openings change (%)"],ticksuffix:"%",gridcolor:LINE,zeroline:true,zerolinecolor:MUTED},
+      yaxis:{title:T["Layoffs change (%)"],ticksuffix:"%",gridcolor:LINE,zeroline:true,zerolinecolor:MUTED},
+      annotations:[{x:0.02,y:0.98,xref:"paper",yref:"paper",text:T["active cuts"],showarrow:false,font:{color:CLAY,size:11}},
+        {x:0.02,y:0.02,xref:"paper",yref:"paper",text:T["quiet freeze"],showarrow:false,font:{color:MUTED,size:11}}]}),CFG);
 }
-function fmtMonth(m){const [y,mo]=m.split("-");return new Date(y,mo-1,1).toLocaleString("en",{month:"short",year:"numeric"});}
+function fmtMonth(m){const [y,mo]=m.split("-");return new Date(y,mo-1,1).toLocaleString(LANG,{month:"short",year:"numeric"});}
 function updateAll(){
   const B=document.getElementById("sel-base").value, C=document.getElementById("sel-compare").value;
   drawWaterfall(B,C); drawDistribution(B,C); drawScatter(B,C); drawFreeze(B,C); drawStatesSwarm(B,C);
   const info=DATA.sectors.find(s=>s.label==="Information"); const ic=info?chg(info,B,C):null;
-  document.getElementById("readout").innerHTML="Information payrolls <b>"+(ic==null?"n/a":(ic>=0?"+":"")+ic.toFixed(1)+"%</b>")+" from "+fmtMonth(B)+" to "+fmtMonth(C);
+  document.getElementById("readout").innerHTML=T["Information payrolls"]+" <b>"+(ic==null?T["n/a"]:(ic>=0?"+":"")+ic.toFixed(1)+"%</b>")+" "+T["from"]+" "+fmtMonth(B)+" "+T["to"]+" "+fmtMonth(C);
 }
 (function init(){
   const sb=document.getElementById("sel-base"), sc=document.getElementById("sel-compare");

@@ -138,8 +138,8 @@
     "note": ""
   },
   {
-    "english": "Every dollar of net job growth, decomposed. Each industry's signed contribution to the total change between your two dates, summing to the net. Services build the total; Information drains it. Recomputes as you change the dates above.",
-    "spanish": "Todo el crecimiento neto del empleo, descompuesto. La contribución con signo de cada industria al cambio total entre las dos fechas que elija, cuya suma da el neto. Los servicios construyen el total; Información lo drena. Se recalcula al cambiar las fechas de arriba.",
+    "english": "Every dollar of net job growth, decomposed. Each industry's signed contribution to the total change between your two dates, summing to the net. Services build the total; Information drains it. <b>Recomputes as you change the dates above.</b>",
+    "spanish": "Todo el crecimiento neto del empleo, descompuesto. La contribución con signo de cada industria al cambio total entre las dos fechas que elija, cuya suma da el neto. Los servicios construyen el total; Información lo drena. <b>Se recalcula al cambiar las fechas de arriba.</b>",
     "uncertain": false,
     "note": ""
   },
@@ -150,8 +150,8 @@
     "note": "'beeswarm' rendered as 'gráfico de enjambre'; the English term is widely kept untranslated. Reviewer may prefer leaving 'beeswarm' as-is."
   },
   {
-    "english": "One dot per detailed (4-digit NAICS) industry, around 180 of them, packed by its employment change and colored by AI exposure (clay = more exposed), sized by employment. At this density the beeswarm reveals the whole shape: a long clay (high-exposure) left tail against a slate body. Recomputes with the dates.",
-    "spanish": "Un punto por cada industria detallada (NAICS de 4 dígitos), alrededor de 180, agrupadas según su cambio en el empleo y coloreadas por exposición a la IA (arcilla = más expuesta), con tamaño proporcional al empleo. A esta densidad, el enjambre revela la forma completa: una larga cola izquierda en color arcilla (alta exposición) frente a un cuerpo en color pizarra. Se recalcula con las fechas.",
+    "english": "One dot per <b>detailed (4-digit NAICS) industry</b>, around 180 of them, packed by its employment change and colored by AI exposure (clay = more exposed), sized by employment. At this density the beeswarm reveals the whole shape: a long clay (high-exposure) left tail against a slate body. <b>Recomputes with the dates.</b>",
+    "spanish": "Un punto por cada <b>industria detallada (NAICS de 4 dígitos)</b>, alrededor de 180, agrupadas según su cambio en el empleo y coloreadas por exposición a la IA (arcilla = más expuesta), con tamaño proporcional al empleo. A esta densidad, el enjambre revela la forma completa: una larga cola izquierda en color arcilla (alta exposición) frente a un cuerpo en color pizarra. <b>Se recalcula con las fechas.</b>",
     "uncertain": true,
     "note": "Color names 'clay'/'slate' rendered as 'arcilla'/'pizarra' to match the dashboard palette; reviewer should confirm these match the actual UI color labels."
   },
@@ -174,8 +174,8 @@
     "note": ""
   },
   {
-    "english": "The thesis on trial: each industry's AI-exposure score (AIIE) against its employment change, with a fitted line. A downward slope is the displacement signature, but watch the R-squared: exposure is potential, not adoption. Recomputes with the dates.",
-    "spanish": "La tesis a prueba: el puntaje de exposición a la IA (AIIE) de cada industria frente a su cambio en el empleo, con una línea ajustada. Una pendiente descendente es la firma del desplazamiento, pero observe la R-cuadrada: la exposición es potencial, no adopción. Se recalcula con las fechas.",
+    "english": "The thesis on trial: each industry's AI-exposure score (AIIE) against its employment change, with a fitted line. A downward slope is the displacement signature, but watch the R-squared: exposure is <b>potential, not adoption</b>. <b>Recomputes with the dates.</b>",
+    "spanish": "La tesis a prueba: el puntaje de exposición a la IA (AIIE) de cada industria frente a su cambio en el empleo, con una línea ajustada. Una pendiente descendente es la firma del desplazamiento, pero observe la R-cuadrada: la exposición es <b>potencial, no adopción</b>. <b>Se recalcula con las fechas.</b>",
     "uncertain": false,
     "note": ""
   },
@@ -198,8 +198,8 @@
     "note": ""
   },
   {
-    "english": "Each JOLTS industry by its change in job openings (horizontal) against its change in layoffs (vertical). Bottom-left is a quiet freeze; top-left is active cutting. Information sits high-left: openings gone and layoffs up. Recomputes with the dates.",
-    "spanish": "Cada industria de JOLTS según su cambio en vacantes (horizontal) frente a su cambio en despidos (vertical). El cuadrante inferior izquierdo es un congelamiento silencioso; el superior izquierdo es un recorte activo. Información se ubica arriba a la izquierda: vacantes desaparecidas y despidos al alza. Se recalcula con las fechas.",
+    "english": "Each JOLTS industry by its change in job openings (horizontal) against its change in layoffs (vertical). Bottom-left is a quiet freeze; top-left is active cutting. Information sits high-left: openings gone and layoffs up. <b>Recomputes with the dates.</b>",
+    "spanish": "Cada industria de JOLTS según su cambio en vacantes (horizontal) frente a su cambio en despidos (vertical). El cuadrante inferior izquierdo es un congelamiento silencioso; el superior izquierdo es un recorte activo. Información se ubica arriba a la izquierda: vacantes desaparecidas y despidos al alza. <b>Se recalcula con las fechas.</b>",
     "uncertain": false,
     "note": ""
   },
@@ -234,8 +234,8 @@
     "note": "'beeswarm' kept as 'gráfico de enjambre' for consistency; the English term is often left untranslated. Reviewer to confirm preferred convention across all chart titles."
   },
   {
-    "english": "One dot per state, packed by its change in unemployment, colored by its tech-employment share (Information plus professional services). If AI were the driver, the clay (tech-heavy) states would cluster on the right. They lean that way, but only weakly. Recomputes with the dates.",
-    "spanish": "Un punto por estado, agrupado según su cambio en el desempleo, coloreado por su participación de empleo tecnológico (Información más servicios profesionales). Si la IA fuera el factor determinante, los estados en color arcilla (con alta carga tecnológica) se agruparían a la derecha. Tienden en esa dirección, pero solo débilmente. Se recalcula con las fechas.",
+    "english": "One dot per state, packed by its change in unemployment, colored by its tech-employment share (Information plus professional services). If AI were the driver, the clay (tech-heavy) states would cluster on the right. They lean that way, but only weakly. <b>Recomputes with the dates.</b>",
+    "spanish": "Un punto por estado, agrupado según su cambio en el desempleo, coloreado por su participación de empleo tecnológico (Información más servicios profesionales). Si la IA fuera el factor determinante, los estados en color arcilla (con alta carga tecnológica) se agruparían a la derecha. Tienden en esa dirección, pero solo débilmente. <b>Se recalcula con las fechas.</b>",
     "uncertain": false,
     "note": ""
   },
@@ -1162,5 +1162,11 @@
     "spanish": "Servicios profesionales y empresariales",
     "uncertain": false,
     "note": "Full form; consistent with abbreviated 'Professional & business svcs' above."
+  },
+  {
+    "english": "Bureau of Labor Statistics (CPS, LAUS, CES, JOLTS, OEWS). AI-exposure: Eloundou, Manning, Mishkin and Rock (2023), GPTs are GPTs; Felten, Raj and Seamans, AI Occupational and Industry Exposure. As of {asof}.",
+    "spanish": "Bureau of Labor Statistics (CPS, LAUS, CES, JOLTS, OEWS). Exposición a la IA: Eloundou, Manning, Mishkin y Rock (2023), GPTs are GPTs; Felten, Raj y Seamans, AI Occupational and Industry Exposure. Datos a {asof}.",
+    "uncertain": false,
+    "note": "full author-name sources line"
   }
 ]
