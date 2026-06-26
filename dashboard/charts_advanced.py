@@ -4,9 +4,6 @@ from __future__ import annotations
 import pandas as pd
 import plotly.graph_objects as go
 
-import pandas as pd
-import plotly.graph_objects as go
-
 from dashboard.charts import (CLAY, CLAY_SOFT, INK, LINE, MUTED, PAPER, SAND, SLATE, TEAL,
                               _SANS, _chatgpt_marker, _template)
 from dashboard.i18n import t
@@ -91,9 +88,37 @@ def fig_state_ur_choropleth_animated(df: pd.DataFrame, lang: str = "es") -> go.F
     return fig
 
 
-def fig_event_study(es: pd.DataFrame, lang: str = "es") -> go.Figure:
-    """Treated (Information) vs control, indexed to 100 at the ChatGPT anchor."""
+def fig_event_study(es: pd.DataFrame, lang: str = "es",
+                    pretrend: dict | None = None) -> go.Figure:
+    """Treated (Information) vs control, indexed to 100 at the ChatGPT anchor.
+
+    When ``pretrend`` (from ``advanced.event_pretrend``) is supplied, overlays the
+    pre-2020 trend projected forward as a dotted counterfactual with a 95%
+    prediction band, shades the COVID window excluded from the fit, and marks the
+    first month the observed gap leaves the band. Labels are descriptive; the
+    chart shows the test, it does not assert a cause.
+    """
     fig = go.Figure()
+    # Clip the observed traces to the analysis window so autoscale (double-click)
+    # lands on the relevant period instead of the full 1939+ indexed history.
+    if not es.empty:
+        es = es[es["date"] >= pd.Timestamp("2014-01-01")]
+    # pre-trend counterfactual band + dotted line (added first -> sits behind)
+    if pretrend is not None and not pretrend["frame"].empty:
+        proj = pretrend["frame"]
+        proj = proj[proj["date"] >= pd.Timestamp("2020-01-01")]
+        band_name = t("Projected pre-2020 trend (95% prediction band)", lang)
+        fig.add_trace(go.Scatter(x=proj["date"], y=proj["cf_hi"], mode="lines",
+                                 line=dict(width=0), hoverinfo="skip", showlegend=False))
+        fig.add_trace(go.Scatter(x=proj["date"], y=proj["cf_lo"], mode="lines",
+                                 line=dict(width=0), fill="tonexty",
+                                 fillcolor="rgba(138,141,153,0.16)", hoverinfo="skip",
+                                 name=band_name))
+        fig.add_trace(go.Scatter(
+            x=proj["date"], y=proj["cf_idx"], mode="lines",
+            line=dict(color=MUTED, width=1.6, dash="dot"),
+            name=t("Information (pre-2020 counterfactual)", lang),
+            hovertemplate=f"{t('Counterfactual', lang)} %{{x|%b %Y}}: %{{y:.1f}}<extra></extra>"))
     if "control" in es.columns:
         fig.add_trace(go.Scatter(x=es["date"], y=es["control"], mode="lines",
                                  line=dict(color=SLATE, width=1.8), name=t("Control (total private ex-Info)", lang),
@@ -106,8 +131,22 @@ def fig_event_study(es: pd.DataFrame, lang: str = "es") -> go.Figure:
     fig.add_annotation(x=CHATGPT, yref="paper", y=1.0, text=t("ChatGPT", lang),
                        showarrow=False, font=dict(color=INK, size=11), xanchor="left", xshift=5)
     fig.add_vline(x=GPT4, line=dict(color=MUTED, width=1, dash="dot"))
+    if pretrend is not None:
+        fig.add_vrect(x0="2020-01-01", x1="2021-12-31", fillcolor="rgba(120,120,130,0.10)",
+                      line_width=0, layer="below")
+        fig.add_annotation(x=pd.Timestamp("2021-01-01"), yref="paper", y=0.06,
+                           text=t("Excluded from fit (COVID)", lang), showarrow=False,
+                           font=dict(color=MUTED, size=9), xanchor="center")
+        em = pretrend.get("exit_month")
+        if em is not None:
+            em = pd.Timestamp(em)
+            fig.add_vline(x=em, line=dict(color=MUTED, width=1, dash="dash"))
+            fig.add_annotation(x=em, yref="paper", y=0.0,
+                               text=f"{t('Gap leaves band', lang)} · {em.strftime('%b %Y')}",
+                               showarrow=False, font=dict(color=MUTED, size=10),
+                               xanchor="right", xshift=-4)
     fig.update_yaxes(title=t("Employment, anchor = 100", lang))
-    fig.update_xaxes(range=["2018-01-01", str(es["date"].max().date()) if not es.empty else None])
+    fig.update_xaxes(range=["2015-01-01", str(es["date"].max().date()) if not es.empty else None])
     return _template(fig, 440)
 
 

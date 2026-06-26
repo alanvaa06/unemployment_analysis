@@ -216,6 +216,85 @@ def event_study_indexed(obs: pd.DataFrame, anchor: str, treated_id: str,
     return df.reset_index().rename(columns={"index": "date"}).sort_values("date").reset_index(drop=True)
 
 
+def event_pretrend(obs: pd.DataFrame, treated_id: str = "CES5000000001",
+                   control_id: str = "CES0500000001", anchor: str = "2022-11",
+                   pre_start: str = "2015-01", pre_end: str = "2019-12",
+                   hac_lags: int = 12) -> dict:
+    """Formal pre-trend / placebo test for the Information-vs-control event study.
+
+    Gap = log(emp Information) - log(emp control), where control is the true
+    ex-Information aggregate (total private minus Information). A linear trend is
+    fit by OLS on the clean pre-COVID window (``pre_start``..``pre_end``), with
+    Newey-West (HAC) standard errors. The fit is projected forward with a 95%
+    PREDICTION interval (HAC parameter variance + residual variance) and mapped
+    back to the index space (anchor = 100) of the existing chart. Reports the
+    pre-trend slope (%/yr, CI) and the first post-anchor month, if any, where the
+    observed gap falls below the projected band. Descriptive only; asserts no
+    causal interpretation.
+    """
+    import statsmodels.api as sm
+
+    a = pd.Timestamp(anchor + "-01") + pd.offsets.MonthEnd(0)
+
+    def level(sid: str) -> pd.Series:
+        return obs[obs["series_id"] == sid].set_index("date")["value"].sort_index()
+
+    wide = pd.concat({"info": level(treated_id), "tp": level(control_id)}, axis=1).dropna()
+    wide["control"] = wide["tp"] - wide["info"]          # true ex-Information control
+    wide = wide[wide["control"] > 0]
+    wide["gap_obs"] = np.log(wide["info"]) - np.log(wide["control"])
+    df = wide.reset_index().rename(columns={"index": "date"}).sort_values("date")
+    df["t"] = df["date"].dt.year + (df["date"].dt.month - 1) / 12.0
+
+    ps = pd.Timestamp(pre_start + "-01")
+    pe = pd.Timestamp(pre_end + "-01") + pd.offsets.MonthEnd(0)
+    pre = df[(df["date"] >= ps) & (df["date"] <= pe)]
+    n_pre = int(len(pre))
+    t0 = float(pre["t"].iloc[0])                          # center origin at window start
+
+    model = sm.OLS(pre["gap_obs"].to_numpy(),
+                   sm.add_constant((pre["t"] - t0).to_numpy())
+                   ).fit(cov_type="HAC", cov_kwds={"maxlags": hac_lags})
+    beta = float(model.params[1])                         # slope, log-points/yr
+    ci = model.conf_int(alpha=0.05)
+    slope_lo, slope_hi = float(ci[1][0]), float(ci[1][1])
+
+    pred = model.get_prediction(sm.add_constant((df["t"] - t0).to_numpy())
+                                ).summary_frame(alpha=0.05)
+    df["fit"] = pred["mean"].to_numpy()
+    df["pi_lo"] = pred["obs_ci_lower"].to_numpy()         # PREDICTION interval (HAC + resid var)
+    df["pi_hi"] = pred["obs_ci_upper"].to_numpy()
+
+    # index space (anchor = 100) so the counterfactual overlays the existing chart
+    row_a = df[df["date"] == a]
+    if row_a.empty:
+        raise ValueError(f"anchor {a.date()} not present in the series")
+    info_a = float(row_a["info"].iloc[0]); ctrl_a = float(row_a["control"].iloc[0])
+    gap_a = float(row_a["gap_obs"].iloc[0])
+    df["treated_idx"] = df["info"] / info_a * 100.0
+    df["control_idx"] = df["control"] / ctrl_a * 100.0
+    df["cf_idx"] = df["control_idx"] * np.exp(df["fit"] - gap_a)
+    df["cf_lo"] = df["control_idx"] * np.exp(df["pi_lo"] - gap_a)
+    df["cf_hi"] = df["control_idx"] * np.exp(df["pi_hi"] - gap_a)
+
+    post = df[df["date"] >= a]
+    below = post[post["gap_obs"] < post["pi_lo"]]
+    exit_month = None if below.empty else pd.Timestamp(below["date"].iloc[0])
+
+    cols = ["date", "gap_obs", "fit", "pi_lo", "pi_hi",
+            "treated_idx", "control_idx", "cf_idx", "cf_lo", "cf_hi"]
+    return {
+        "slope_pct_yr": beta * 100.0,
+        "slope_ci": (slope_lo * 100.0, slope_hi * 100.0),
+        "slope_sig": bool(slope_lo > 0 or slope_hi < 0),
+        "hac_lags": hac_lags,
+        "n_pre": n_pre,
+        "anchor": a,
+        "exit_month": exit_month,
+        "frame": df[cols].reset_index(drop=True),
+    }
+
+
 def freeze_vs_cuts(obs: pd.DataFrame, meta: pd.DataFrame,
                    baseline: str, compare: str) -> pd.DataFrame:
     """Per JOLTS INDUSTRY: openings change vs layoffs change, baseline->compare.
