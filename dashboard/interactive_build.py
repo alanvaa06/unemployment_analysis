@@ -162,6 +162,11 @@ def build_interactive(cache_dir: Path = Path("data/cache"),
 
     # ---- server-rendered figures ----
     es = advanced.event_study_indexed(obs, "2022-11", "CES5000000001", ["CES0500000001"])
+    # pre-trend / placebo test; also swaps the displayed control to the true
+    # ex-Information aggregate so the chart line matches its label + the band.
+    pretrend = advanced.event_pretrend(obs)
+    es = es.merge(pretrend["frame"][["date", "control_idx"]], on="date", how="left")
+    es["control"] = es["control_idx"].where(es["control_idx"].notna(), es["control"])
     matrix = bundle.industry_year_matrix(
         obs, meta, only_ids={s for s, _, _ in advanced.DISPLAY_INDUSTRIES})
     di = advanced.diffusion_index(obs, window_months=6)
@@ -211,11 +216,13 @@ def build_interactive(cache_dir: Path = Path("data/cache"),
            lang),
          '<div class="chart" id="c-scatter" style="min-height:480px"></div>', True),
         ("event", t("Information versus a control, around ChatGPT", lang),
-         t("Information employment and a control (total private excluding Information), each indexed "
-           "to 100 at the ChatGPT launch. If the lines track before the anchor and split after, that "
-           "supports an AI break; pre-existing divergence would point to the tech-hiring unwind and "
-           "rate hikes instead.", lang),
-         _fig_html(charts_advanced.fig_event_study(es, lang=lang), "c-event"), False),
+         t("Information employment and a control (total private excluding Information), indexed to "
+           "100 at the ChatGPT launch. The dotted line projects the gap's 2015-2019 trend forward "
+           "with a 95% prediction band (Newey-West HAC); the COVID window is excluded from the fit. "
+           "The marker shows where the observed line leaves the band — a divergence the pre-2020 "
+           "trend does not explain. Pre-existing drift would instead be consistent with the "
+           "tech-hiring unwind and rate hikes.", lang),
+         _fig_html(charts_advanced.fig_event_study(es, lang=lang, pretrend=pretrend), "c-event"), False),
         ("freeze", t("Hiring freeze, or active cuts?", lang),
          t("Each JOLTS industry by its change in job openings (horizontal) against its change in "
            "layoffs (vertical). Bottom-left is a quiet freeze; top-left is active cutting. Information "

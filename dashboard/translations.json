@@ -1168,5 +1168,41 @@
     "spanish": "Bureau of Labor Statistics (CPS, LAUS, CES, JOLTS, OEWS). Exposición a la IA: Eloundou, Manning, Mishkin y Rock (2023), GPTs are GPTs; Felten, Raj y Seamans, AI Occupational and Industry Exposure. Datos a {asof}.",
     "uncertain": false,
     "note": "full author-name sources line"
+  },
+  {
+    "english": "Projected pre-2020 trend (95% prediction band)",
+    "spanish": "Tendencia pre-2020 proyectada (banda de predicción 95%)",
+    "uncertain": false,
+    "note": "pre-trend test overlay"
+  },
+  {
+    "english": "Information (pre-2020 counterfactual)",
+    "spanish": "Información (contrafactual pre-2020)",
+    "uncertain": false,
+    "note": "pre-trend test overlay"
+  },
+  {
+    "english": "Counterfactual",
+    "spanish": "Contrafactual",
+    "uncertain": false,
+    "note": "pre-trend test overlay"
+  },
+  {
+    "english": "Excluded from fit (COVID)",
+    "spanish": "Excluido del ajuste (COVID)",
+    "uncertain": false,
+    "note": "pre-trend test overlay"
+  },
+  {
+    "english": "Gap leaves band",
+    "spanish": "La brecha sale de la banda",
+    "uncertain": false,
+    "note": "pre-trend test overlay"
+  },
+  {
+    "english": "Information employment and a control (total private excluding Information), indexed to 100 at the ChatGPT launch. The dotted line projects the gap's 2015-2019 trend forward with a 95% prediction band (Newey-West HAC); the COVID window is excluded from the fit. The marker shows where the observed line leaves the band — a divergence the pre-2020 trend does not explain. Pre-existing drift would instead be consistent with the tech-hiring unwind and rate hikes.",
+    "spanish": "Empleo del sector Información y un control (privado total excluyendo Información), indexados a 100 en el lanzamiento de ChatGPT. La línea punteada proyecta hacia adelante la tendencia 2015-2019 de la brecha con una banda de predicción al 95% (Newey-West HAC); la ventana COVID se excluye del ajuste. La marca indica dónde la línea observada sale de la banda — una divergencia que la tendencia pre-2020 no explica. Una deriva preexistente sería, en cambio, consistente con la resaca de contratación tech y las alzas de tasas.",
+    "uncertain": false,
+    "note": "event-study caption w/ pre-trend test"
   }
 ]

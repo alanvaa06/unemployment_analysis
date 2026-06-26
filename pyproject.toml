@@ -5,6 +5,8 @@ description = "BLS unemployment/workforce data pipeline + AI-impact dashboard"
 requires-python = ">=3.11"
 dependencies = [
     "pandas>=2.0",
+    "numpy>=1.26",
+    "statsmodels>=0.14",
     "pyarrow>=14",
     "requests>=2.30",
     "python-dotenv>=1.0",
