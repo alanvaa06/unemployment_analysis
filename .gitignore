@@ -29,6 +29,9 @@ venv/
 .coverage
 htmlcov/
 
+# Docs (local-only working notes, specs, context)
+docs/
+
 # OS / editor
 .DS_Store
 Thumbs.db
