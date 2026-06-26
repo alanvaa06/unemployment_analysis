@@ -99,6 +99,10 @@ def fig_event_study(es: pd.DataFrame, lang: str = "es",
     chart shows the test, it does not assert a cause.
     """
     fig = go.Figure()
+    # Clip the observed traces to the analysis window so autoscale (double-click)
+    # lands on the relevant period instead of the full 1939+ indexed history.
+    if not es.empty:
+        es = es[es["date"] >= pd.Timestamp("2014-01-01")]
     # pre-trend counterfactual band + dotted line (added first -> sits behind)
     if pretrend is not None and not pretrend["frame"].empty:
         proj = pretrend["frame"]
@@ -142,7 +146,7 @@ def fig_event_study(es: pd.DataFrame, lang: str = "es",
                                showarrow=False, font=dict(color=MUTED, size=10),
                                xanchor="right", xshift=-4)
     fig.update_yaxes(title=t("Employment, anchor = 100", lang))
-    fig.update_xaxes(range=["2018-01-01", str(es["date"].max().date()) if not es.empty else None])
+    fig.update_xaxes(range=["2015-01-01", str(es["date"].max().date()) if not es.empty else None])
     return _template(fig, 440)
 
 
