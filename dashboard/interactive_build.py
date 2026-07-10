@@ -496,6 +496,7 @@ def _toolbar_html(static: bool = False, lang: str = "es") -> str:
     if static:
         buttons = pdf
     else:
+        xlsx_title = t("Download every chart's data, one sheet per chart", lang)
         buttons = (
             f'  <input id="bls-key" type="password" autocomplete="off" '
             f'placeholder="{t("BLS API key (optional; uses .env default)", lang)}">\n'
@@ -504,7 +505,7 @@ def _toolbar_html(static: bool = False, lang: str = "es") -> str:
             f'&#x21bb; {t("Refresh from BLS", lang)}</button>\n'
             f'{pdf}\n'
             f'  <button id="btn-xlsx" '
-            f'title="{t("Download every chart\'s data, one sheet per chart", lang)}">'
+            f'title="{xlsx_title}">'
             f'&#x2913; {t("Data (Excel)", lang)}</button>'
         )
     return ('<div class="toolbar"><div class="wrap">\n'
